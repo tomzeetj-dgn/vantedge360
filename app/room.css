@@ -25,8 +25,13 @@ html:has(.rx){overscroll-behavior-y:none}
 .rx-logo span{font-family:'Marcellus',serif;font-size:.84rem;letter-spacing:.44em}
 .rx-nav nav{display:flex;align-items:center;gap:2.2rem}
 .rx-nav nav a{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500;color:#FAF8F4;text-decoration:none}
-.rx-nav nav a:hover{color:#D9BE8C}
-.rx-nav .rx-cta{border:1px solid rgba(250,248,244,.6);padding:13px 22px}
+.rx-nav a:hover{color:#FAF8F4}
+.rx-nav nav a:not(.rx-cta){background:linear-gradient(#D9BE8C,#D9BE8C) 0 100%/0 1px no-repeat;padding-bottom:4px;transition:background-size .45s cubic-bezier(.2,.7,.1,1)}
+.rx-nav nav a:not(.rx-cta):hover{background-size:100% 1px}
+.rx-logo span{background:linear-gradient(#D9BE8C,#D9BE8C) 0 100%/0 1px no-repeat;padding-bottom:4px;transition:background-size .45s cubic-bezier(.2,.7,.1,1)}
+.rx-logo:hover span{background-size:100% 1px}
+.rx-nav .rx-cta{border:1px solid rgba(250,248,244,.6);padding:13px 22px;transition:background .4s,color .4s,border-color .4s}
+.rx-nav .rx-cta:hover{background:#FAF8F4;color:#1E1C19;border-color:#FAF8F4}
 
 .rx-card{background:#FAF8F4;box-shadow:0 60px 100px -60px rgba(0,0,0,.65);width:min(1180px,100%)}
 .rx-trust{width:min(820px,100%);padding:clamp(40px,7vh,72px) clamp(32px,5vw,72px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.8rem}
