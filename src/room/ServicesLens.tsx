@@ -8,7 +8,6 @@ function ServicesLens({ phase, fill }: { phase: number; fill: number }) {
   const cur = steps[phase];
   return (
     <section className="lens" id="services" aria-label="How it works">
-      <h2 className="lens-ttl cap">One shoot, then you’re everywhere</h2>
       <div className={`lens-box ph${phase}`} aria-hidden="true">
         <div className="lens-win">
           {SLICES.map((i) => {
@@ -25,13 +24,19 @@ function ServicesLens({ phase, fill }: { phase: number; fill: number }) {
           <div className="lens-g"><u className="b4" /><span>Iceland</span></div>
         </div>
       </div>
-      <div className="lens-cap" aria-live="polite">
-        <i>{String(phase + 1).padStart(2, '0')} / 04</i>
-        <b className="cap">{cur[1]}</b>
-        <span>{cur[2]}</span>
-      </div>
-      <div className="lens-dots" aria-hidden="true">
-        {[0, 1, 2, 3].map((i) => <u key={i} className={i < phase ? 'done' : i === phase ? 'on' : ''}>{i === phase && <s style={{ width: `${fill * 100}%` }} />}</u>)}
+      <div className="lens-bar">
+        <h2 className="lens-ttl cap">One shoot,<br />then you’re everywhere</h2>
+        <div className="lens-steps">
+          <ol>
+            {steps.map((st, i) => (
+              <li key={st[1]} className={i === phase ? 'on' : i < phase ? 'done' : ''} aria-current={i === phase ? 'step' : undefined}>
+                <b>{st[1]}</b>
+                <i aria-hidden="true">{i === phase && <s style={{ width: `${Math.round(fill * 100)}%` }} />}</i>
+              </li>
+            ))}
+          </ol>
+          <p aria-live="polite">{cur[2]}</p>
+        </div>
       </div>
     </section>
   );
