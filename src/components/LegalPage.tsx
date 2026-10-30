@@ -1,4 +1,5 @@
 import { images } from '@/content/site';
+import { u } from '@/content/base';
 import Footer from './sections/Footer';
 
 export type LegalSection = { id: string; title: string; body: React.ReactNode };
@@ -8,8 +9,8 @@ export default function LegalPage({ title, intro, sections }: { title: string; i
     <div className="lg">
       <div className="wrap">
         <header className="lg-nav">
-          <a className="lg-logo" href="/"><img src={images.logoGold} alt="VantEdge360" width={40} height={24} /><span>VANTEDGE</span></a>
-          <nav className="lg-nr" aria-label="Primary"><a href="/">Home</a><a className="gh" href="/#contact">Book a shoot</a></nav>
+          <a className="lg-logo" href={u('/')}><img src={images.logoGold} alt="VantEdge360" width={40} height={24} /><span>VANTEDGE</span></a>
+          <nav className="lg-nr" aria-label="Primary"><a href={u('/')}>Home</a><a className="gh" href={u('/#contact')}>Book a shoot</a></nav>
         </header>
       </div>
       <main className="wrap">

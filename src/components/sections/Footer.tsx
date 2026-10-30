@@ -1,8 +1,9 @@
 import { memo } from 'react';
 import { contactEmail, images } from '@/content/site';
+import { u } from '@/content/base';
 
 function Footer({ home = true }: { home?: boolean }) {
-  const h = (id: string) => (home ? `#${id}` : `/#${id}`);
+  const h = (id: string) => (home ? `#${id}` : `${u('/')}#${id}`);
   return (
     <footer className="ft">
       <div className="wrap">
@@ -25,8 +26,8 @@ function Footer({ home = true }: { home?: boolean }) {
         </div>
         <div className="ft-bot">
           <span>© {new Date().getFullYear()} VantEdge360</span>
-          <span className="ft-legal"><a href="/privacy/">Privacy Policy</a><a href="/terms/">Terms &amp; Conditions</a></span>
-          <a className="ft-up" href={home ? '#top' : '/'}>{home ? <>Back to top <span aria-hidden="true">↑</span></> : 'Back to home'}</a>
+          <span className="ft-legal"><a href={u('/privacy/')}>Privacy Policy</a><a href={u('/terms/')}>Terms &amp; Conditions</a></span>
+          <a className="ft-up" href={home ? '#top' : u('/')}>{home ? <>Back to top <span aria-hidden="true">↑</span></> : 'Back to home'}</a>
         </div>
       </div>
     </footer>

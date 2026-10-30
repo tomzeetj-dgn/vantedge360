@@ -14,7 +14,11 @@ npm run build      # static site in out/
 
 ## Deploy
 
-On Vercel: import this repo and keep the defaults. Netlify, Cloudflare Pages or any static host also work, using build command `npm run build` and output folder `out`.
+**GitHub Pages (set up).** Every push to `main` builds the site and publishes it to https://tomzeetj-dgn.github.io/vantedge360/ (`.github/workflows/pages.yml`). This needs to be done once in the repo: Settings → Pages → Source: **GitHub Actions**.
+
+For a custom domain later (for example vantedge360.com), add it under Settings → Pages, and set `NEXT_PUBLIC_BASE_PATH` to an empty value in the workflow, because the site then lives at the domain root.
+
+Vercel, Netlify or any other static host also works with no changes: build command `npm run build`, output folder `out`.
 
 ## Where things live
 

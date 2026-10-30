@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import LegalPage from '@/components/LegalPage';
+import { u } from '@/content/base';
 import '../legal.css';
 
 export const metadata: Metadata = { title: 'Terms & Conditions · VantEdge360', alternates: { canonical: '/terms/' }, robots: { index: false } };
@@ -15,7 +16,7 @@ export default function Terms() {
         { id: 's3', title: 'Opting out', body: 'You can stop text messages at any time by replying STOP. You will receive one confirmation message. To start again, reply START or contact us.' },
         { id: 's4', title: 'Support', body: <>For help, reply HELP or email <a href="mailto:info@vantedge360.com">info@vantedge360.com</a>.</> },
         { id: 's5', title: 'Message and data rates', body: 'Standard message and data rates may apply. How often you hear from us depends on your enquiry or project.' },
-        { id: 's6', title: 'Privacy', body: <>Your information is handled in line with our <a href="/privacy/">Privacy Policy</a>.</> },
+        { id: 's6', title: 'Privacy', body: <>Your information is handled in line with our <a href={u('/privacy/')}>Privacy Policy</a>.</> },
       ]}
     />
   );

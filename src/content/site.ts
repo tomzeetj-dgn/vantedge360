@@ -1,4 +1,5 @@
 import toursData from './tours.json';
+import { u } from './base';
 
 /*
  * Every image on the site comes from here, so the client's own panorama
@@ -6,11 +7,11 @@ import toursData from './tours.json';
  * The CSS references the same files under /images for background images.
  */
 export const images = {
-  logoInk: '/images/ve-emblem-ink.svg',
-  logoGold: '/images/ve-emblem-gold.svg',
-  googleBadge: '/images/google-trusted-badge.png',
-  mapLinework: '/images/map-linework.svg',
-  heroPlanet: '/images/planet-restaurant.webp',
+  logoInk: u('/images/ve-emblem-ink.svg'),
+  logoGold: u('/images/ve-emblem-gold.svg'),
+  googleBadge: u('/images/google-trusted-badge.png'),
+  mapLinework: u('/images/map-linework.svg'),
+  heroPlanet: u('/images/planet-restaurant.webp'),
 };
 
 export type Tour = { title: string; googleMapsUrl: string; embedUrl: string };

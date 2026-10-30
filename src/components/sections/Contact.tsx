@@ -1,5 +1,6 @@
 import { memo, type FormEvent } from 'react';
 import { contactEmail, images } from '@/content/site';
+import { u } from '@/content/base';
 
 type Props = { sent: boolean; busy: boolean; err: string; onSubmit: (e: FormEvent<HTMLFormElement>) => void };
 
@@ -25,7 +26,7 @@ function Contact({ sent, busy, err, onSubmit }: Props) {
                 <input className="ct-hp" type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" />
                 <div className="ct-ft">
                   <button className="dk-btn ct-btn" type="submit" disabled={busy}>{busy ? 'Sending…' : 'Send'}</button>
-                  <span className="ct-pp">By sending, you agree to our <a href="/privacy/">Privacy Policy</a>.</span>
+                  <span className="ct-pp">By sending, you agree to our <a href={u('/privacy/')}>Privacy Policy</a>.</span>
                 </div>
                 {err && <p className="ct-err" role="alert">{err}</p>}
               </form>

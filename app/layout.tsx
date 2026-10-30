@@ -5,6 +5,7 @@ import '@fontsource/manrope/400.css';
 import '@fontsource/manrope/500.css';
 import '@fontsource/manrope/600.css';
 import './home.css';
+import { u } from '@/content/base';
 
 const SITE = 'https://www.vantedge360.com';
 
@@ -19,9 +20,9 @@ export const metadata: Metadata = {
     siteName: 'VantEdge360',
     title: 'VantEdge360 · Google 360° virtual tours',
     description: 'One shoot, then you’re everywhere guests look you up.',
-    images: [{ url: '/images/og.jpg', width: 1200, height: 630 }],
+    images: [{ url: u('/images/og.jpg'), width: 1200, height: 630 }],
   },
-  icons: { icon: '/images/ve-emblem-ink.svg' },
+  icons: { icon: u('/images/ve-emblem-ink.svg') },
 };
 
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#FAF8F4' };
@@ -30,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <link rel="preload" as="image" href="/images/restaurant.webp" fetchPriority="high" />
+        <link rel="preload" as="image" href={u('/images/restaurant.webp')} fetchPriority="high" />
       </head>
       <body>{children}</body>
     </html>
