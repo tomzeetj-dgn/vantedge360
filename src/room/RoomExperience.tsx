@@ -152,7 +152,7 @@ export default class RoomExperience extends HomeExperience {
               <div className="rx-p"><section className="work hz-panel rx-work" id="work"><div className="wrap"><MapBlock v={this.mapVals()} /></div></section></div>
               <div className="rx-p"><ServicesLens phase={phase} intro={+svIn.toFixed(3)} /></div>
               <div className="rx-p rx-deck" id="benefits">
-                <header className="dk-head"><div className="dk-hi" style={{ opacity: +(1 - 0.9 * dkT[0]).toFixed(3), transform: `scale(${(1 - 0.06 * dkT[0]).toFixed(4)})` }}><h2>What changes<br />for you</h2><p>Once your tour is live on Google, you’ll notice four things.</p></div></header>
+                <header className="dk-head"><div className="dk-hi" style={{ opacity: +(1 - dkT[0]).toFixed(3), transform: `scale(${(1 - 0.06 * dkT[0]).toFixed(4)})` }}><h2>What changes<br />for you</h2></div></header>
                 <div className="dk-stage"><DeckCards c={dkC} /></div>
               </div>
               <div className="rx-p"><div className="rx-card rx-faq"><Faq open={s.fqA} onToggle={this.toggleFaq} /></div></div>

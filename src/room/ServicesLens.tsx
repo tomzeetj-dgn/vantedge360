@@ -79,7 +79,7 @@ function ServicesLens({ phase, intro }: { phase: number; intro: number }) {
           </div>
         ))}
       </div>
-      <h2 className="lens-ttl cap" style={{ opacity: +(1 - 0.9 * intro).toFixed(3), transform: `scale(${(1 - 0.06 * intro).toFixed(4)})` }}>One shoot,<br />then you’re<br />everywhere</h2>
+      <h2 className="lens-ttl cap" style={{ opacity: +(1 - intro).toFixed(3), transform: `scale(${(1 - 0.06 * intro).toFixed(4)})` }}>One shoot,<br />then you’re<br />everywhere</h2>
       <div className="lens-bar" style={{ opacity: intro, transform: `translate(-50%, ${((1 - intro) * 30).toFixed(1)}px)` }}>
         <div className="lens-step" key={phase} aria-live="polite">
           <h3 className="cap">{cur[1]}</h3>
