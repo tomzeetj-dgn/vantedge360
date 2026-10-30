@@ -1,9 +1,18 @@
 name: Deploy to GitHub Pages
 
+# Publishes two versions of the site side by side:
+#   main  -> https://<owner>.github.io/<repo>/      (current site)
+#   room  -> https://<owner>.github.io/<repo>/v2/   (room version, work in progress)
+# Pages only accepts deployments from main, so a push to `room` runs the small
+# "Room branch changed" workflow, which triggers this one on main.
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Room branch changed"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -19,19 +28,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+      - uses: actions/checkout@v4
+        with:
+          ref: room
+          path: room
+        continue-on-error: true
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run build
+      - name: Build current site (main)
+        working-directory: main
+        run: npm ci && npm run build
         env:
-          # The site is served at https://<owner>.github.io/<repo>/
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
-      - run: touch out/.nojekyll
+      - name: Build room version (room) into /v2/
+        if: hashFiles('room/package.json') != ''
+        working-directory: room
+        run: npm ci && npm run build && mkdir -p ../main/out/v2 && cp -r out/. ../main/out/v2/
+        env:
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}/v2
+      - run: touch main/out/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: main/out
 
   deploy:
     needs: build

@@ -1,0 +1,13 @@
+name: Room branch changed
+
+# Runs on every push to `room` and, when it finishes, triggers
+# "Deploy to GitHub Pages" on main, which publishes the room version at /v2/.
+on:
+  push:
+    branches: [room]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "room branch updated, Pages will rebuild from main"

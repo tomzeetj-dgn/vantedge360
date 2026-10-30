@@ -14,6 +14,8 @@ npm run build      # static site in out/
 
 ## Deploy
 
+**Two versions are published.** `main` is the current site at https://tomzeetj-dgn.github.io/vantedge360/. The `room` branch is the room version (sideways 360° turn on desktop) at https://tomzeetj-dgn.github.io/vantedge360/v2/. Both are rebuilt whenever either branch changes.
+
 **GitHub Pages (set up).** Every push to `main` builds the site and publishes it to https://tomzeetj-dgn.github.io/vantedge360/ (`.github/workflows/pages.yml`). This needs to be done once in the repo: Settings → Pages → Source: **GitHub Actions**.
 
 For a custom domain later (for example vantedge360.com), add it under Settings → Pages, and set `NEXT_PUBLIC_BASE_PATH` to an empty value in the workflow, because the site then lives at the domain root.
