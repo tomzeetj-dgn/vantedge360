@@ -15,6 +15,7 @@ function WorkAndIntro({ v }: { v: any }) {
                 <p>Pick a place and walk around the real tour.</p>
               </div>
 
+              <div className="mapcol">
               <div className={`mapbox ${v.mapPhase} ${v.inCls}`} ref={v.mapRef}>
                 <div className="map" style={{ transformOrigin: `${cur.x}% ${cur.y}%` }}>
                   <img src={images.mapLinework} alt="Map of Europe and the Middle East showing VantEdge360 locations" />
@@ -47,23 +48,26 @@ function WorkAndIntro({ v }: { v: any }) {
                           tabIndex={v.gvOn ? 0 : -1}
                         />
                         {!v.gvOn && (
-                          <button className="gvs" onClick={v.gvActivate} aria-label={`Look around ${cur.name}, tour ${v.tourN}`}>
-                            <span>Click to look around</span>
-                          </button>
+                          <button className="gvs" onClick={v.gvActivate} aria-label={`Look around ${cur.name}, tour ${v.tourN}`} />
                         )}
-                        <a className="gvo" href={v.tour.googleMapsUrl} target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
                       </>
                     )}
                   </div>
                 </div>
-                <div className="otop">
-                  <div><h3 className="cap">{cur.name}</h3><div className="meta">{cur.kind}</div></div>
-                  <div className="ctr">
-                    <button className={`sm ${v.t1Cls}`} onClick={v.tour1} aria-pressed={v.t1Cls === 'on'}>Tour 01</button>
-                    <button className={`sm ${v.t2Cls}`} onClick={v.tour2} aria-pressed={v.t2Cls === 'on'}>Tour 02</button>
-                    <button className="sm" onClick={v.toMap}>Back to map</button>
+              </div>
+              <div className={`vbar${v.open ? ' on' : ''}`} aria-hidden={!v.open}>
+                <p className="vbar-hint">
+                  {v.gvOn ? <>{cur.kind}</> : <><span className="vb-click">Click</span><span className="vb-tap">Tap</span> the tour to look around</>}
+                </p>
+                <div className="vbar-ctl">
+                  <div className="vbar-tours" role="group" aria-label="Tours">
+                    <span className="vbar-l">Tour</span>
+                    <button className={v.t1Cls} onClick={v.tour1} aria-pressed={v.t1Cls === 'on'} tabIndex={v.open ? 0 : -1}>01</button>
+                    <button className={v.t2Cls} onClick={v.tour2} aria-pressed={v.t2Cls === 'on'} tabIndex={v.open ? 0 : -1}>02</button>
                   </div>
+                  <button className="vbar-back" onClick={v.toMap} tabIndex={v.open ? 0 : -1}>Back to map</button>
                 </div>
+              </div>
               </div>
 
               <div className="dlist">

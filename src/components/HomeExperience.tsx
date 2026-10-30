@@ -116,6 +116,8 @@ export default class HomeExperience extends Component<object, S> {
         const pinned = r2.top <= 0.5;
         if (pinned !== !!this.state.dkPin) upd.dkPin = pinned;
       }
+      // the page moved, so the visitor is no longer inside the tour: put the scroll shield back
+      if (this.state.gvOn) upd.gvOn = false;
       if (Object.keys(upd).length) this.setState(upd);
     });
   };
