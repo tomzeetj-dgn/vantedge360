@@ -6,6 +6,7 @@
 
 /* ---------- desktop: sideways turn through the room ---------- */
 .rx{background:#1B1916;color:#1E1C19}
+html:has(.rx){overscroll-behavior-y:none}
 .rx-bg{position:fixed;left:0;right:0;top:-6vh;bottom:-6vh;overflow:hidden;z-index:0}
 .rx-strip{height:100%;background-image:url(../public/images/pano-strip.webp);background-repeat:repeat-x;background-size:auto 100%;will-change:transform}
 .rx-bg::after{content:'';position:absolute;inset:0;background:rgba(20,18,15,.3)}

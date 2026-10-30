@@ -76,6 +76,8 @@ export default class RoomExperience extends HomeExperience {
     this.later(() => this.fly(k), 900);
   };
 
+  bg: HTMLDivElement | null = null;
+  darkRoot: boolean | undefined;
   onHz = () => {
     if (this.hzRaf) return;
     this.hzRaf = requestAnimationFrame(() => {
@@ -100,7 +102,17 @@ export default class RoomExperience extends HomeExperience {
       const stripW = vh * 1.12 * RATIO;
       if (this.strip) { this.strip.style.width = `${stripW * 2 + W}px`; this.strip.style.transform = `translate3d(${-((uu / TOTAL) * stripW) % stripW}px,0,0)`; }
       // the slim nav takes over once the hero has scrolled away
-      if (this.nav) this.nav.classList.toggle('on', t.getBoundingClientRect().top < vh * 0.35);
+      const tr = t.getBoundingClientRect();
+      if (this.nav) this.nav.classList.toggle('on', tr.top < vh * 0.35);
+      // the room only shows behind the sideways part, never above the hero or below the footer
+      if (this.bg) {
+        const br = this.bg.getBoundingClientRect();
+        const top = Math.max(0, tr.top - br.top), bot = Math.max(0, br.bottom - tr.bottom);
+        this.bg.style.clipPath = `inset(${top}px 0 ${bot}px 0)`;
+      }
+      // whatever an overscroll bounce shows matches the hero (top) or the footer (bottom)
+      const dark = tr.top < 0;
+      if (dark !== this.darkRoot) { this.darkRoot = dark; document.documentElement.style.backgroundColor = dark ? '#1B1916' : '#FAF8F4'; }
       // open the first destination (Dubai) by itself as the map card arrives
       if (!this.autoOpened && pos >= 0.6 && this.state.mp === 'map') {
         this.autoOpened = true;
@@ -122,7 +134,7 @@ export default class RoomExperience extends HomeExperience {
     const { dkT, dkC } = this.deckVals(s.dkP || 0, dvh);
     return (
       <div className="hm rx">
-        <div className="rx-bg" aria-hidden="true"><div className="rx-strip" ref={(el) => { this.strip = el; }} /></div>
+        <div className="rx-bg" aria-hidden="true" ref={(el) => { this.bg = el; }}><div className="rx-strip" ref={(el) => { this.strip = el; }} /></div>
         <header className="rx-nav" ref={(el) => { this.nav = el; }}>
           <a className="rx-logo" href="#top"><img src={images.logoGold} alt="VantEdge360" width={40} height={24} /><span>VANTEDGE</span></a>
           <nav aria-label="Primary"><a href="#services">Services</a><a href="#faq">FAQ</a><a className="rx-cta" href="#contact">Book a shoot</a></nav>
