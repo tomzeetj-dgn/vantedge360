@@ -10,9 +10,32 @@ const cards = [
   { h: 'More of them book', p: 'Someone who has already walked around online is much closer to booking.' },
 ];
 
+/* The five stacking cards. Shared by the current site and the room version. */
+export function DeckCards({ c }: { c: any[] }) {
+  const t = (i: number) => ({ zIndex: i + 1, transform: `translateY(${c[i].y}px) rotate(${c[i].r}deg) scale(${c[i].s})`, filter: `brightness(${c[i].b})` });
+  return (
+    <>
+              {cards.map((k, i) => (
+                <article key={k.h} className={`dk-card ${c[i].cls}`} style={t(i)}>
+                  <div className="dk-in">
+                    <div className="dk-tx"><h3>{k.h}</h3><p>{k.p}</p></div>
+                    <div className="dk-dial" aria-hidden="true" />
+                  </div>
+                </article>
+              ))}
+              <aside className={`dk-card dk-tour ${c[4].cls}`} aria-label="VantEdge 360 Tour terms" style={t(4)}>
+                <div className="dk-in dk-tin">
+                  <div className="dk-th"><img src={images.logoGold} alt="" width={46} height={28} /><div><h3>VantEdge 360 Tour</h3><div className="dk-sub">For hotels, villas, restaurants and shops</div></div></div>
+                  <div className="dk-tg"><div><span>Fee</span><b>One-time</b></div><div><span>Subscription</span><b>None</b></div><div><span>Photographer</span><b>Our Google Trusted team</b></div></div>
+                  <div className="dk-tf"><a className="dk-btn" href="#contact">Book a shoot</a><span className="dk-note">We price each property after a short call.</span></div>
+                </div>
+              </aside>
+    </>
+  );
+}
+
 function Benefits({ v }: { v: any }) {
   const c = v.cards;
-  const t = (i: number) => ({ zIndex: i + 1, transform: `translateY(${c[i].y}px) rotate(${c[i].r}deg) scale(${c[i].s})`, filter: `brightness(${c[i].b})` });
   return (
     <section className="dk" id="benefits" ref={v.dkRef}>
       <div className="dk-pin">
@@ -33,23 +56,7 @@ function Benefits({ v }: { v: any }) {
                 <p>Once your tour is live on Google, you’ll notice four things.</p>
               </div>
             </header>
-            <div className="dk-stage">
-              {cards.map((k, i) => (
-                <article key={k.h} className={`dk-card ${c[i].cls}`} style={t(i)}>
-                  <div className="dk-in">
-                    <div className="dk-tx"><h3>{k.h}</h3><p>{k.p}</p></div>
-                    <div className="dk-dial" aria-hidden="true" />
-                  </div>
-                </article>
-              ))}
-              <aside className={`dk-card dk-tour ${c[4].cls}`} aria-label="VantEdge 360 Tour terms" style={t(4)}>
-                <div className="dk-in dk-tin">
-                  <div className="dk-th"><img src={images.logoGold} alt="" width={46} height={28} /><div><h3>VantEdge 360 Tour</h3><div className="dk-sub">For hotels, villas, restaurants and shops</div></div></div>
-                  <div className="dk-tg"><div><span>Fee</span><b>One-time</b></div><div><span>Subscription</span><b>None</b></div><div><span>Photographer</span><b>Our Google Trusted team</b></div></div>
-                  <div className="dk-tf"><a className="dk-btn" href="#contact">Book a shoot</a><span className="dk-note">We price each property after a short call.</span></div>
-                </div>
-              </aside>
-            </div>
+            <div className="dk-stage"><DeckCards c={c} /></div>
           </div>
         </div>
       </div>

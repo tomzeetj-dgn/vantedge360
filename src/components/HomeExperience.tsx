@@ -174,7 +174,8 @@ export default class HomeExperience extends Component<object, S> {
     }
   }
 
-  render() {
+  /* Map, destinations and the live tour viewer: shared by the current site and the room version. */
+  mapVals() {
     const s = this.state;
     const raw = destinations.map((d, i) => ({ name: d.destination, kind: d.label, ...mapPins[i] }));
     const dests = raw.map((d, i) => ({
@@ -184,7 +185,33 @@ export default class HomeExperience extends Component<object, S> {
     const opened = s.mp === 'zoom' || s.mp === 'open';
     const cur = s.dest >= 0 ? raw[s.dest] : raw[0];
     const tour = (destinations[s.dest] || destinations[0]).tours[s.tour - 1] || destinations[0].tours[0];
+    return {
+      mapRef: (el: HTMLElement | null) => this.watch(el), inCls: s.mapIn ? 'in' : '',
+      mapPhase: 'mp-' + s.mp, dests, cur, apR: opened ? '150%' : '0%',
+      tourN: '0' + s.tour, t1Cls: s.tour === 1 ? 'on' : '', t2Cls: s.tour === 2 ? 'on' : '',
+      open: s.mp === 'open', tour, gvOn: s.gvOn, gvReady: s.gvReady,
+      gvActivate: () => this.setState({ gvOn: true }),
+      gvLeave: () => { if (this.state.gvOn) this.setState({ gvOn: false }); },
+      gvLoad: () => { this.mlater(() => this.setState({ gvReady: true }), 3500); },
+      tour1: () => { if (this.state.tour !== 1) this.setState({ tour: 1, gvOn: false, gvReady: false }); },
+      tour2: () => { if (this.state.tour !== 2) this.setState({ tour: 2, gvOn: false, gvReady: false }); },
+      toMap: () => { this.mt.forEach(clearTimeout); this.mt = []; this.setState({ mp: 'map', gvOn: false, gvReady: false }); },
+    };
+  }
 
+  /* The stacking card deck: five cards rise and stack as dkP goes 0 → 1. */
+  deckVals(dkP: number, dvh: number) {
+    const dkT = [0, 1, 2, 3, 4].map((i) => { const t = Math.max(0, Math.min(1, (dkP - (0.34 + i * 0.125)) / 0.11)); return 1 - Math.pow(1 - t, 3); });
+    const dkRot = [-1.6, 1.2, -0.9, 1.5, 0];
+    const dkC = dkT.map((e, i) => {
+      let depth = 0; for (let j = i + 1; j < 5; j++) depth += dkT[j]; depth = Math.min(depth, 3);
+      return { cls: e > 0.85 ? 'in' : '', y: ((1 - e) * dvh * 0.95 - depth * 18).toFixed(1), r: (dkRot[i] * (1 - depth * 0.15) + (1 - e) * 7).toFixed(2), s: (1 - depth * 0.035).toFixed(3), b: (1 - depth * 0.05).toFixed(3) };
+    });
+    return { dkT, dkC };
+  }
+
+  render() {
+    const s = this.state;
     const st = s.step, sr = s.rot;
     const mvP: number[] = s.mvP || [];
     const mvSl = [0, 1, 2, 3, 4, 5, 6, 7].map((k) => ({ a: k * 45, k, bp: (k / 7 * 100).toFixed(3) }));
@@ -208,28 +235,14 @@ export default class HomeExperience extends Component<object, S> {
     const hzF = Math.max(0, Math.min(1, (s.hzP - 0.5) / 0.15));
     const hzE = hzT < 0.5 ? 4 * hzT * hzT * hzT : 1 - Math.pow(-2 * hzT + 2, 3) / 2;
     const dkP = s.dkP || 0, dvh = Math.min(typeof window !== 'undefined' ? window.innerHeight : 900, 1600);
-    const dkT = [0, 1, 2, 3, 4].map((i) => { const t = Math.max(0, Math.min(1, (dkP - (0.34 + i * 0.125)) / 0.11)); return 1 - Math.pow(1 - t, 3); });
-    const dkRot = [-1.6, 1.2, -0.9, 1.5, 0];
-    const dkC = dkT.map((e, i) => {
-      let depth = 0; for (let j = i + 1; j < 5; j++) depth += dkT[j]; depth = Math.min(depth, 3);
-      return { cls: e > 0.85 ? 'in' : '', y: ((1 - e) * dvh * 0.95 - depth * 18).toFixed(1), r: (dkRot[i] * (1 - depth * 0.15) + (1 - e) * 7).toFixed(2), s: (1 - depth * 0.035).toFixed(3), b: (1 - depth * 0.05).toFixed(3) };
-    });
+    const { dkT, dkC } = this.deckVals(dkP, dvh);
     const dkPan = Math.max(0, Math.min(1, (dkP - 0.05) / 0.22));
     const dkPanE = dkPan < 0.5 ? 4 * dkPan * dkPan * dkPan : 1 - Math.pow(-2 * dkPan + 2, 3) / 2;
 
     const work = {
       hzRef: (el: HTMLElement | null) => { this.hzEl = el; },
       hzX: (hzE * 50).toFixed(3), hzTitleOp: (1 - hzF).toFixed(3), hzTitleY: (-28 * hzF).toFixed(1),
-      mapRef: (el: HTMLElement | null) => this.watch(el), inCls: s.mapIn ? 'in' : '',
-      mapPhase: 'mp-' + s.mp, dests, cur, apR: opened ? '150%' : '0%',
-      tourN: '0' + s.tour, t1Cls: s.tour === 1 ? 'on' : '', t2Cls: s.tour === 2 ? 'on' : '',
-      open: s.mp === 'open', tour, gvOn: s.gvOn, gvReady: s.gvReady,
-      gvActivate: () => this.setState({ gvOn: true }),
-      gvLeave: () => { if (this.state.gvOn) this.setState({ gvOn: false }); },
-      gvLoad: () => { this.mlater(() => this.setState({ gvReady: true }), 3500); },
-      tour1: () => { if (this.state.tour !== 1) this.setState({ tour: 1, gvOn: false, gvReady: false }); },
-      tour2: () => { if (this.state.tour !== 2) this.setState({ tour: 2, gvOn: false, gvReady: false }); },
-      toMap: () => { this.mt.forEach(clearTimeout); this.mt = []; this.setState({ mp: 'map', gvOn: false, gvReady: false }); },
+      ...this.mapVals(),
     };
 
     const services = { steps, slices, step: st, railH: ((st + 1) / 4 * 100).toFixed(0) };

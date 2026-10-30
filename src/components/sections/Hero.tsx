@@ -20,6 +20,7 @@ export default class Hero extends Component<object, S> {
 
   componentDidMount() {
     this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.addEventListener('vantedge:turned', this.onTurned);
     // Start the intro only once the photo and planet are in, so nothing animates empty. Never wait more than 4s.
     const go = () => { if (this.state.ready) return; this.setState({ ready: true }); this.intro(); setTimeout(() => laterImages.forEach(load), 1500); };
     Promise.all([load(heroRoomSrc), load(heroPlanetSrc)]).then(go);
@@ -35,7 +36,10 @@ export default class Hero extends Component<object, S> {
     }, 40);
   }
 
-  componentWillUnmount() { clearInterval(this.t1); this.timers.forEach(clearTimeout); }
+  componentWillUnmount() { clearInterval(this.t1); this.timers.forEach(clearTimeout); window.removeEventListener('vantedge:turned', this.onTurned); }
+
+  /* After the end-of-page turn the visitor lands back here: show the planet, skip the intro. */
+  onTurned = () => { this.timers.forEach(clearTimeout); this.timers = []; this.setState({ ready: true, phase: 'planet', touched: false }); };
 
   intro() {
     this.timers.forEach(clearTimeout); this.timers = [];

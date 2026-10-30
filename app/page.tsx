@@ -1,4 +1,7 @@
 import HomeExperience from '@/components/HomeExperience';
+import RoomExperience from '@/room/RoomExperience';
+import TurnAround from '@/room/TurnAround';
+import Gate from '@/room/Gate';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -16,7 +19,7 @@ export default function Page() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <HomeExperience />
+      <Gate wide={<RoomExperience />} narrow={<><HomeExperience /><TurnAround /></>} />
     </>
   );
 }
