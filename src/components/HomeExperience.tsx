@@ -224,7 +224,7 @@ export default class HomeExperience extends Component<object, S> {
       open: s.mp === 'open', tour, gvOn: s.gvOn, gvReady: s.gvReady,
       gvActivate: () => this.setState({ gvOn: true }),
       gvLeave: () => { if (this.state.gvOn) this.setState({ gvOn: false }); },
-      gvLoad: () => { this.mlater(() => this.setState({ gvReady: true }), 1400); },
+      gvLoad: () => { this.mlater(() => this.setState({ gvReady: true }), 3500); },
       tour1: () => { if (this.state.tour !== 1) this.setState({ tour: 1, gvOn: false, gvReady: false }); },
       tour2: () => { if (this.state.tour !== 2) this.setState({ tour: 2, gvOn: false, gvReady: false }); },
       toMap: () => { this.mt.forEach(clearTimeout); this.mt = []; this.setState({ mp: 'map', gvOn: false, gvReady: false }); },
