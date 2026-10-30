@@ -37,7 +37,7 @@ function WorkAndIntro({ v }: { v: any }) {
                       <>
                         <iframe
                           key={v.tour.embedUrl}
-                          className={`gv${v.gvOn ? ' ready' : ''}`}
+                          className={`gv${v.gvReady ? ' ready' : ''}`}
                           src={v.tour.embedUrl}
                           title={`${cur.name}, 360° tour ${v.tourN} on Google Maps`}
                           allowFullScreen
