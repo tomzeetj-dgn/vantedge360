@@ -6,6 +6,9 @@
  */
 import { Component } from 'react';
 import { images } from '@/content/site';
+import { heroPlanetSrc, heroRoomSrc, laterImages } from '@/content/assets';
+
+const load = (src: string) => new Promise<void>((res) => { const i = new Image(); i.onload = () => res(); i.onerror = () => res(); i.src = src; });
 
 type S = Record<string, any>;
 
@@ -13,11 +16,14 @@ export default class Hero extends Component<object, S> {
   timers: ReturnType<typeof setTimeout>[] = [];
   t1?: ReturnType<typeof setInterval>;
   reduce = false;
-  state: S = { phase: 'photo', pos: 50, dir: 1, drag: false, touched: false, spin: 0, pdrag: false, moved: false };
+  state: S = { ready: false, phase: 'photo', pos: 50, dir: 1, drag: false, touched: false, spin: 0, pdrag: false, moved: false };
 
   componentDidMount() {
     this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    this.intro();
+    // Start the intro only once the photo and planet are in, so nothing animates empty. Never wait more than 4s.
+    const go = () => { if (this.state.ready) return; this.setState({ ready: true }); this.intro(); setTimeout(() => laterImages.forEach(load), 1500); };
+    Promise.all([load(heroRoomSrc), load(heroPlanetSrc)]).then(go);
+    this.timers.push(setTimeout(go, 4000));
     this.t1 = setInterval(() => {
       const s = this.state;
       if (s.drag || s.touched || this.reduce) return;
@@ -61,7 +67,7 @@ export default class Hero extends Component<object, S> {
       fold: () => this.setState({ phase: 'planet' }),
     };
   return (
-    <section className="hero" id="top" aria-label="Introduction">
+    <section className={`hero${s.ready ? '' : ' hero-wait'}`} id="top" aria-label="Introduction">
       <div className={`room ${v.roomCls}`} style={{ backgroundPosition: `${v.panX}% 50%` }} onPointerDown={v.onDown} onPointerMove={v.onMove} onPointerUp={v.onUp} onPointerLeave={v.onUp} role="img" aria-label="360° preview of a sky-level dining room. Drag to look around." />
       <div className={`shade ${v.shadeCls}`} />
       <div className={`c2scrim ${v.c2Cls}`} />
@@ -74,7 +80,7 @@ export default class Hero extends Component<object, S> {
       <div className={`planetwrap ${v.planetCls}`}>
         <div className="orbit" style={{ transform: `rotate(${v.spinDeg}deg)` }} />
         <button className="pbtn" style={{ transform: `rotate(${v.spinDeg}deg)` }} onPointerDown={v.pDown} onPointerMove={v.pMove} onPointerUp={v.pUp} onClick={v.pClick} aria-label="Step inside the 360° tour">
-          <div className="spin"><img src={images.heroPlanet} alt="" draggable={false} fetchPriority="high" /></div>
+          <div className="spin"><img src={heroPlanetSrc} alt="" draggable={false} fetchPriority="high" /></div>
         </button>
       </div>
       <div className={`below ${v.planetCls}`}>

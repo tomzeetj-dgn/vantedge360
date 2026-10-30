@@ -6,6 +6,7 @@ import '@fontsource/manrope/500.css';
 import '@fontsource/manrope/600.css';
 import './home.css';
 import { u } from '@/content/base';
+import { heroRoomSrc } from '@/content/assets';
 
 const SITE = 'https://www.vantedge360.com';
 
@@ -31,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <link rel="preload" as="image" href={u('/images/restaurant.webp')} fetchPriority="high" />
+        <link rel="preload" as="image" href={heroRoomSrc} fetchPriority="high" />
       </head>
       <body>{children}</body>
     </html>

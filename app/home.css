@@ -713,3 +713,7 @@ html{font-size:20px}
 .ct-f em{color:#6E675D}
 .ft-col h3{margin:0 0 .5rem;font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;color:rgba(233,226,212,.66)}
 .fq-it:hover .fq-q,.fq-it.fq-on .fq-q{color:#76592C}
+
+/* ===== Production · hold the intro until its images are loaded ===== */
+.hero-wait .frame,.hero-wait .room,.hero-wait .c1{opacity:0!important;animation:none!important}
+.hero .frame,.hero .room{transition-property:opacity,clip-path,transform}
