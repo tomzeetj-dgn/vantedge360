@@ -68,11 +68,11 @@ export default class Hero extends Component<object, S> {
     };
   return (
     <section className={`hero${s.ready ? '' : ' hero-wait'}`} id="top" aria-label="Introduction">
-      <div className={`room ${v.roomCls}`} style={{ backgroundPosition: `${v.panX}% 50%` }} onPointerDown={v.onDown} onPointerMove={v.onMove} onPointerUp={v.onUp} onPointerLeave={v.onUp} role="img" aria-label="360° preview of a sky-level dining room. Drag to look around." />
+      <div className={`room ${v.roomCls}`} style={{ backgroundPosition: `${v.panX}% 50%` }} onPointerDown={v.onDown} onPointerMove={v.onMove} onPointerUp={v.onUp} onPointerLeave={v.onUp} role="img" aria-label="360° preview of a colonnaded hall. Drag to look around." />
       <div className={`shade ${v.shadeCls}`} />
       <div className={`c2scrim ${v.c2Cls}`} />
       <div className={`frame ${v.frameCls}`} />
-      <p className={`cap c1 ${v.c1Cls}`}>Sky Dining, Dubai</p>
+      <p className={`cap c1 ${v.c1Cls}`}>This is a photo</p>
       <p className={`cap c2 ${v.c2Cls}`}>Now look<br />around</p>
       <div className={`flank ${v.planetCls}`}>
         <div className="wrap flankin"><h1 className="cap fh fl">Step inside</h1><div /><div className="cap fh fr">before you arrive</div></div>
@@ -88,7 +88,7 @@ export default class Hero extends Component<object, S> {
         <div className="row"><button className="btn" onClick={v.enter}>Walk through a tour</button><a className="btn ol" href="#work">See the work</a></div>
       </div>
       <div className={`insidebar ${v.insideCls}`}>
-        <div className="wrap ibin"><span>Sky Dining, Dubai. Drag to look around.</span><button className="back" onClick={v.fold}>Fold back to 360°</button></div>
+        <div className="wrap ibin"><span>Drag to look around</span><button className="back" onClick={v.fold}>Fold back to 360°</button></div>
       </div>
       <header className={`nav ${v.navCls}`}>
         <div className="wrap navin">

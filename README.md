@@ -32,6 +32,10 @@ Vercel, Netlify or any other static host also works with no changes: build comma
 | Styles | `app/home.css` (ported 1:1 from the approved design) and `app/legal.css` |
 | Approved design and build spec | `design/`. Run `python3 design/reference/serve.py` to view it |
 
+## Stand-in images
+
+The hero planet and room view (`public/images/hero-planet.webp`, `hero-room.webp`) are rendered from Poly Haven's "Solitude interior" 360° panorama (CC0, free to use, no credit needed): https://polyhaven.com/a/solitude_interior. Replace them with a render from the client's own panorama before launch.
+
 ## Still to do before launch
 
 - [ ] **Contact form.** Choose a service (Formspree, Web3Forms, …) and paste its endpoint into `formEndpoint` in `src/content/site.ts`. Until then, the form shows the thank-you message but sends nothing.

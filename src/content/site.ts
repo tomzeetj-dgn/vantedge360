@@ -11,7 +11,7 @@ export const images = {
   logoGold: u('/images/ve-emblem-gold.svg'),
   googleBadge: u('/images/google-trusted-badge.png'),
   mapLinework: u('/images/map-linework.svg'),
-  heroPlanet: u('/images/planet-restaurant.webp'),
+  heroPlanet: u('/images/hero-planet.webp'),
 };
 
 export type Tour = { title: string; googleMapsUrl: string; embedUrl: string };

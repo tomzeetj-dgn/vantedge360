@@ -726,3 +726,7 @@ html{font-size:20px}
 @keyframes gvlspin{to{transform:rotate(360deg)}}
 @keyframes gvlin{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.gvl-ring{animation-duration:3s}}
+
+/* ===== Hero · stand-in 360° panorama (Poly Haven "Solitude interior", CC0) until the client's own file arrives ===== */
+.room{background-image:url(../public/images/hero-room.webp)}
+.dk-stage>article:nth-of-type(2) .dk-dial{background-image:url(../public/images/hero-planet.webp)}
