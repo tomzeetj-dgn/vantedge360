@@ -717,3 +717,12 @@ html{font-size:20px}
 /* ===== Production · hold the intro until its images are loaded ===== */
 .hero-wait .frame,.hero-wait .room,.hero-wait .c1{opacity:0!important;animation:none!important}
 .hero .frame,.hero .room{transition-property:opacity,clip-path,transform}
+
+/* ===== Production · map viewer opens onto the real tour only (no stand-in photo) ===== */
+.ap .still{background:#1B1916;display:flex;align-items:center;justify-content:center}
+.gvl{display:flex;flex-direction:column;align-items:center;gap:1rem;animation:gvlin .6s ease .3s backwards}
+.gvl-ring{width:34px;height:34px;border-radius:50%;border:1px solid rgba(217,190,140,.25);border-top-color:#D9BE8C;animation:gvlspin 1.1s linear infinite}
+.gvl-t{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;color:rgba(233,226,212,.7)}
+@keyframes gvlspin{to{transform:rotate(360deg)}}
+@keyframes gvlin{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.gvl-ring{animation-duration:3s}}

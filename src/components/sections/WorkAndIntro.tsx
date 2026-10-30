@@ -31,7 +31,7 @@ function WorkAndIntro({ v }: { v: any }) {
                   </div>
                 </div>
                 <div className="ap" style={{ clipPath: `circle(${v.apR} at ${cur.x}% ${cur.y}%)` }}>
-                  <div className={`still ${cur.cls}`} />
+                  <div className="still" aria-hidden="true">{v.open && !v.gvReady && <div className="gvl"><span className="gvl-ring" /><span className="gvl-t">Loading the tour</span></div>}</div>
                   <div className="facade" onMouseLeave={v.gvLeave}>
                     {v.open && (
                       <>
