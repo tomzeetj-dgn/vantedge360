@@ -24,18 +24,16 @@ function ServicesLens({ phase, fill }: { phase: number; fill: number }) {
           <div className="lens-g"><u className="b4" /><span>Iceland</span></div>
         </div>
       </div>
+      <h2 className="lens-ttl cap">One shoot, then you’re everywhere</h2>
       <div className="lens-bar">
-        <h2 className="lens-ttl cap">One shoot,<br />then you’re everywhere</h2>
-        <div className="lens-steps">
-          <ol>
-            {steps.map((st, i) => (
-              <li key={st[1]} className={i === phase ? 'on' : i < phase ? 'done' : ''} aria-current={i === phase ? 'step' : undefined}>
-                <b>{st[1]}</b>
-                <i aria-hidden="true">{i === phase && <s style={{ width: `${Math.round(fill * 100)}%` }} />}</i>
-              </li>
-            ))}
-          </ol>
-          <p aria-live="polite">{cur[2]}</p>
+        <div className="lens-prog" aria-hidden="true">
+          {steps.map((st, i) => (
+            <i key={st[1]} className={i < phase ? 'done' : ''}>{i === phase && <s style={{ width: `${Math.round(fill * 100)}%` }} />}</i>
+          ))}
+        </div>
+        <div className="lens-step" key={phase} aria-live="polite">
+          <h3 className="cap">{cur[1]}</h3>
+          <p>{cur[2]}</p>
         </div>
       </div>
     </section>
