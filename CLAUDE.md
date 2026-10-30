@@ -1,0 +1,21 @@
+# Notes for Claude Code
+
+- `design/reference/Home.dc.html` is the approved design. It is the source of truth for layout, copy, CSS values, motion and breakpoints. Match it. Don't redesign it.
+- The approved interactions must keep working exactly as they do now:
+  - the hero intro (photo, then room, then planet)
+  - the pinned map-to-services hand-off
+  - the sticky services stage on desktop, and the per-step scenes on screens up to 900px wide
+  - the pinned "What changes for you" card stack
+  - the FAQ accordion
+  - the Google tour embed with its click-to-look-around layer
+- Copy rules:
+  - Write plain, human copy.
+  - No em dashes, no full stops at the end of headlines, and no "not X but Y" constructions.
+  - "Book a shoot" is the only name for the main action.
+  - Never invent facts. Where one is missing, use a visible placeholder like `[PROPERTY NAME]`.
+- Never download or re-host imagery from Google Maps. Embedding Google's player is fine.
+- Before saying a change is done:
+  - Check it at 390×844, 820×1180, 1024×768, 1440×900 and 1920×1080.
+  - Check there is no horizontal overflow.
+  - Check `prefers-reduced-motion` still works.
+  - Make sure `npm run build` passes.

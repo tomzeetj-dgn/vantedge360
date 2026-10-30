@@ -1,0 +1,27 @@
+/* Legal pages, ported from reference/Privacy.dc.html */
+.lg{font-family:'Manrope',system-ui,sans-serif;color:#1E1C19;background:#FAF8F4;-webkit-font-smoothing:antialiased}
+.lg *{box-sizing:border-box}
+.lg-nav{display:flex;justify-content:space-between;align-items:center;height:92px;border-bottom:1px solid rgba(30,28,25,.1)}
+.lg-logo{display:flex;align-items:center;gap:.85rem;text-decoration:none;color:#1E1C19}
+.lg-logo img{height:24px;width:auto}
+.lg-logo span{font-family:'Marcellus',serif;font-size:.84rem;letter-spacing:.44em}
+.lg-nr{display:flex;align-items:center;gap:2.2rem}
+.lg-nr a{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500;color:#1E1C19;text-decoration:none}
+.lg-nr a.gh{border:1px solid rgba(30,28,25,.5);padding:13px 22px}
+.lg-hd{padding:clamp(4rem,8vw,6.5rem) 0 clamp(2.5rem,5vw,3.5rem)}
+.lg-hd h1{margin:0;font-size:clamp(2.6rem,6vw,5.2rem);line-height:1}
+.lg-hd p{margin:1.4rem 0 0;max-width:34rem;font-size:1.02rem;line-height:1.7;color:#5A544B;font-weight:300}
+.lg-meta{display:flex;gap:2rem;flex-wrap:wrap;margin-top:2rem;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:#8A6B3A}
+.lg-grid{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:clamp(2.5rem,6vw,6.5rem);align-items:start;padding:3rem 0 clamp(5rem,9vw,8rem);border-top:1px solid rgba(30,28,25,.14)}
+.lg-toc{position:sticky;top:2rem;display:flex;flex-direction:column;gap:.9rem}
+.lg-toc h4{margin:0 0 .4rem;font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;color:#8C857B}
+.lg-toc a{font-size:.95rem;color:#5A544B;text-decoration:none;transition:color .3s}
+.lg-toc a:hover{color:#8A6B3A}
+.lg-s{padding:0 0 2.4rem;margin-bottom:2.4rem;border-bottom:1px solid rgba(30,28,25,.1)}
+.lg-s:last-child{border-bottom:0;margin-bottom:0}
+.lg-s h2{margin:0;display:flex;align-items:baseline;gap:1.1rem;font-family:'Marcellus',serif;font-weight:400;text-transform:uppercase;letter-spacing:.07em;font-size:clamp(1.3rem,2vw,1.7rem)}
+.lg-s h2 span{font-family:'Manrope',sans-serif;font-size:.7rem;letter-spacing:.2em;font-weight:600;color:#8A6B3A}
+.lg-s p{margin:1rem 0 0;max-width:40rem;font-size:1.02rem;line-height:1.8;color:#4E483F;font-weight:300}
+.lg-s a{color:#1E1C19;text-decoration:none;border-bottom:1px solid rgba(184,151,95,.6)}
+@media (max-width:860px){.lg-grid{grid-template-columns:minmax(0,1fr)}.lg-toc{position:relative;top:0}.lg-nr a:not(.gh){display:none}}
+.lg-s a:hover{color:#8A6B3A}

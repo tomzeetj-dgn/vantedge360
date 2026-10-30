@@ -1,0 +1,77 @@
+{
+  "_note": "Real VantEdge360 tours supplied by the designer. propertyName: fill from the client. label: placeholder until confirmed. embedUrl is derived from the Maps link (panorama id, position, heading, pitch); if one does not render, replace it with the iframe src from Google Maps > Share > Embed a map.",
+  "destinations": [
+    {
+      "id": "dubai",
+      "destination": "Dubai",
+      "label": "Luxury retail",
+      "propertyName": null,
+      "tours": [
+        {
+          "title": "Tour 01",
+          "googleMapsUrl": "https://www.google.com/maps/@25.0689432,55.1396296,3a,90y,349.79h,85.24t/data=!3m8!1e1!3m6!1sCIABIhDgTLTZ-tPbtMnLl9oo0xxU!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAM4Q-U9EVFVIkPQHggsjR8ELqNIe5LuCbD9KGlJ2Qf8ZW2l4gbzewWthUyIT38UxJRijHMtEsC0Az7F3EdVZ7cDMPSJmqXbn_x5ZCB0742zMV9Rr9ZhucqWw3xvLVTw1mBxfsC9kyCryMsvT40E%3Dw900-h600-k-no-pi4.762354124748498-ya46.12760197169342-ro0-fo100!7i10000!8i5000?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+          "embedUrl": "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sCIABIhDgTLTZ-tPbtMnLl9oo0xxU!2m2!1d25.0689432!2d55.1396296!3f349.79!4f-4.76!5f0.78"
+        },
+        {
+          "title": "Tour 02",
+          "googleMapsUrl": "https://www.google.com/maps/@25.0811249,55.1386544,3a,82.2y,317.44h,83.37t/data=!3m8!1e1!3m6!1sCIABIhAXliSo-FT2F55bUmPvEgpY!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAM4Q-U--2SnxbR0pvmbeU2bFf6E22jltenw-M_fQpBmUqRyG5PzmWMN-mIlFGZZzLBFhY-gS7Pdyxc5aSTeRlft5R7iDb-OfalvoLmwjLv5QEc-HUKXCvVrBfBiLq34zWS-lZpMDGZtFZV0W_YUT%3Dw900-h600-k-no-pi6.6299999999999955-ya207.38999694824219-ro0-fo100!7i10000!8i5000?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+          "embedUrl": "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sCIABIhAXliSo-FT2F55bUmPvEgpY!2m2!1d25.0811249!2d55.1386544!3f317.44!4f-6.63!5f0.78"
+        }
+      ]
+    },
+    {
+      "id": "greece",
+      "destination": "Greece",
+      "label": "Private villas",
+      "propertyName": null,
+      "tours": [
+        {
+          "title": "Tour 01",
+          "googleMapsUrl": "https://www.google.com/maps/@38.0536671,22.919936,3a,82.2y,241.23h,82.29t/data=!3m8!1e1!3m6!1sCIABIhCcpXkYsgHozOag4hhtcMlF!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAM4Q-U-Sj4kP__jFjxDX-tdcPoHEYDyNojPJI0Mx02MK_XSnzlJczEDmcOUXutV6CvjcdACdEzsmAUNmKIyLjUOVI4K_qXKeZQTtHUAFQp-liAas1U7FXnRb-0mbnMPgk15h8KHZUcWJl684RT4%3Dw900-h600-k-no-pi7.709999999999994-ya218.81407020568847-ro0-fo100!7i14000!8i7000?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+          "embedUrl": "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sCIABIhCcpXkYsgHozOag4hhtcMlF!2m2!1d38.0536671!2d22.919936!3f241.23!4f-7.71!5f0.78"
+        },
+        {
+          "title": "Tour 02",
+          "googleMapsUrl": "https://www.google.com/maps/@37.8154777,23.7808373,3a,82.2y,333.15h,83.09t/data=!3m8!1e1!3m6!1sCIABIhBhAcDt59_7CuFrnNWm62EY!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAM4Q-U-xLyTRgJJzWIPqsHRww06rPWQhcNCMVqsCft08F2CIYdLyXNde64_XR94Vt21C_hjzM8oIf9vkXXqY-ERYEPX5szz-Q37ox7XmO9IGJ-FAXzpnjcmTIz6zofsTgreP9Ya3XLsX69UEeVoa%3Dw900-h600-k-no-pi6.909999999999997-ya356.9499877929688-ro0-fo100!7i15000!8i7500?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+          "embedUrl": "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sCIABIhBhAcDt59_7CuFrnNWm62EY!2m2!1d37.8154777!2d23.7808373!3f333.15!4f-6.91!5f0.78"
+        }
+      ]
+    },
+    {
+      "id": "faroe-islands",
+      "destination": "Faroe Islands",
+      "label": "Hospitality",
+      "propertyName": null,
+      "tours": [
+        {
+          "title": "Tour 01",
+          "googleMapsUrl": "https://www.google.com/maps/@62.0342067,-6.7670972,3a,82.2y,11.99h,88.95t/data=!3m8!1e1!3m6!1sCIABIhBOEPDMN-_P1aXzLr3RNaVy!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAM4Q-U8p21GAMLP0-j0USAWXya5OBeIuyoPoA5XKBgqoK484Sm4s4f4yz3wznEPitlzJfCu5vX_9ayVHPs7iZjz7WIXDmIvXPOY6kgpj-kqvCHtgta8ouwx2FZjM0SiKs3l5bhp2FdwW-jUC4B_Y%3Dw900-h600-k-no-pi1.0499999999999972-ya11.99-ro0-fo100!7i8000!8i4000?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+          "embedUrl": "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sCIABIhBOEPDMN-_P1aXzLr3RNaVy!2m2!1d62.0342067!2d-6.7670972!3f11.99!4f-1.05!5f0.78"
+        },
+        {
+          "title": "Tour 02",
+          "googleMapsUrl": "https://www.google.com/maps/@62.0143702,-6.7743025,3a,82.2y,191.71h,82.39t/data=!3m8!1e1!3m6!1sCIABIhApvnnfgmyWy1bKO6oepzuk!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAM4Q-U9ztaHuJP_F1-vJSnbLJAXv2zdcr7eRxqEF6VEis15XKUsRyqzu0XUTvzzNEA_-oC3I3VSpteFRiwPO7nT3lXjDDaiIMdF8o-ubBSNJWwSaDL_wJ812pzDXHTOlukDdzZgG4-wHWOaWvNb9%3Dw900-h600-k-no-pi7.609999999999999-ya191.71-ro0-fo100!7i8000!8i4000?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+          "embedUrl": "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sCIABIhApvnnfgmyWy1bKO6oepzuk!2m2!1d62.0143702!2d-6.7743025!3f191.71!4f-7.61!5f0.78"
+        }
+      ]
+    },
+    {
+      "id": "iceland",
+      "destination": "Iceland",
+      "label": "Hotels",
+      "propertyName": null,
+      "tours": [
+        {
+          "title": "Tour 01",
+          "googleMapsUrl": "https://www.google.com/maps/@64.13347,-21.8740336,3a,49.9y,232.79h,68.09t/data=!3m8!1e1!3m6!1sCIABIhAMBUa5AobPUUsarJ53iCNl!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAM4Q-U8UdWnBp3ZY5ipyLyaxuSg42A7QvULVtNWnLWWjktxmmM4GWFNN7IgM690u9oet2ptm_LV63R2IisZBzpdRyrS1OKgKNZaARhR8KzODMCyjoRLWEjTC_NbI8xeov0fApcpElCHZfAqmzsPK%3Dw900-h600-k-no-pi21.909999999999997-ya232.79-ro0-fo100!7i14142!8i7071?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+          "embedUrl": "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sCIABIhAMBUa5AobPUUsarJ53iCNl!2m2!1d64.13347!2d-21.8740336!3f232.79!4f-21.91!5f0.78"
+        },
+        {
+          "title": "Tour 02",
+          "googleMapsUrl": "https://www.google.com/maps/@64.1457653,-21.9322365,3a,82.2y,39.72h,86.75t/data=!3m8!1e1!3m6!1sCIABIhBpc-1WXeYuK-bqeEBtS7Tz!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAM4Q-U852DMgdwP_sORJfTBsAGVaCt3zgE648psgmpDL25kQqdvkISSKN7etf_uLDGj08Be78FKSW7kUsCGGVFntGtLE2GdL0eGsVynoMezFCc96ul408PBn6BpcAbPbCb6Aabnr_A0cke6suVJp%3Dw900-h600-k-no-pi3.25-ya39.72-ro0-fo100!7i14142!8i7071?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+          "embedUrl": "https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sCIABIhBpc-1WXeYuK-bqeEBtS7Tz!2m2!1d64.1457653!2d-21.9322365!3f39.72!4f-3.25!5f0.78"
+        }
+      ]
+    }
+  ]
+}
