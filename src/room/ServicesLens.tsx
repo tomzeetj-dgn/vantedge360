@@ -37,7 +37,7 @@ function GCard({ l }: { l: Listing }) {
   );
 }
 
-function ServicesLens({ phase }: { phase: number; fill?: number }) {
+function ServicesLens({ phase, intro }: { phase: number; intro: number }) {
   const cur = steps[phase];
   const box = useRef<HTMLDivElement>(null);
   /* Fit the four cards in a row: one scale and four x offsets, written as CSS variables. */
@@ -61,7 +61,7 @@ function ServicesLens({ phase }: { phase: number; fill?: number }) {
   }, []);
   return (
     <section className="lens" id="services" aria-label="How it works">
-      <div className={`lens-box ph${phase}`} aria-hidden="true" ref={box}>
+      <div className={`lens-box ph${phase}`} aria-hidden="true" ref={box} style={{ opacity: intro, transform: `translateY(${((1 - intro) * 50).toFixed(1)}px)` }}>
         <div className="lens-unit">
         <div className="lens-win">
           {SLICES.map((i) => {
@@ -79,8 +79,8 @@ function ServicesLens({ phase }: { phase: number; fill?: number }) {
           </div>
         ))}
       </div>
-      <h2 className="lens-ttl cap">One shoot, then you’re everywhere</h2>
-      <div className="lens-bar">
+      <h2 className="lens-ttl cap" style={{ opacity: +(1 - 0.9 * intro).toFixed(3), transform: `scale(${(1 - 0.06 * intro).toFixed(4)})` }}>One shoot,<br />then you’re<br />everywhere</h2>
+      <div className="lens-bar" style={{ opacity: intro, transform: `translate(-50%, ${((1 - intro) * 30).toFixed(1)}px)` }}>
         <div className="lens-step" key={phase} aria-live="polite">
           <h3 className="cap">{cur[1]}</h3>
           <p>{cur[2]}</p>

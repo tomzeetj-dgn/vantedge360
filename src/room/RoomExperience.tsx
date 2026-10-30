@@ -20,7 +20,7 @@ type Seg = { kind: 'move'; to: number } | { kind: 'stay'; at: number; len: numbe
 const SEGS: Seg[] = [
   { kind: 'stay', at: 0, len: 0.3 },
   { kind: 'move', to: 1 }, { kind: 'stay', at: 1, len: 0.9, id: 'work' },
-  { kind: 'move', to: 2 }, { kind: 'stay', at: 2, len: 3.2, id: 'services', play: 'sv' },
+  { kind: 'move', to: 2 }, { kind: 'stay', at: 2, len: 3.6, id: 'services', play: 'sv' },
   { kind: 'move', to: 3 }, { kind: 'stay', at: 3, len: 2.4, id: 'benefits', play: 'dk' },
   { kind: 'move', to: 4 }, { kind: 'stay', at: 4, len: 0.5, id: 'faq' },
   { kind: 'move', to: 5 }, { kind: 'stay', at: 5, len: 0.4, id: 'contact' },
@@ -129,7 +129,7 @@ export default class RoomExperience extends HomeExperience {
 
   render() {
     const s = this.state;
-    const svP = s.svP || 0, phase = Math.min(3, Math.floor(svP * 4)), fill = Math.min(1, svP * 4 - phase);
+    const svP = s.svP || 0, svIn = Math.min(1, svP / 0.1), phase = Math.max(0, Math.min(3, Math.floor(((svP - 0.1) / 0.9) * 4)));
     const dvh = Math.min(typeof window !== 'undefined' ? window.innerHeight : 900, 1600);
     const { dkT, dkC } = this.deckVals(s.dkP || 0, dvh);
     return (
@@ -150,7 +150,7 @@ export default class RoomExperience extends HomeExperience {
                 </div>
               </div>
               <div className="rx-p"><section className="work hz-panel rx-work" id="work"><div className="wrap"><MapBlock v={this.mapVals()} /></div></section></div>
-              <div className="rx-p"><ServicesLens phase={phase} fill={fill} /></div>
+              <div className="rx-p"><ServicesLens phase={phase} intro={+svIn.toFixed(3)} /></div>
               <div className="rx-p rx-deck" id="benefits">
                 <header className="dk-head"><div className="dk-hi" style={{ opacity: +(1 - 0.9 * dkT[0]).toFixed(3), transform: `scale(${(1 - 0.06 * dkT[0]).toFixed(4)})` }}><h2>What changes<br />for you</h2><p>Once your tour is live on Google, you’ll notice four things.</p></div></header>
                 <div className="dk-stage"><DeckCards c={dkC} /></div>
