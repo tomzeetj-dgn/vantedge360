@@ -1,5 +1,5 @@
 /* "One shoot, then you're everywhere" for the room version: one frame of the room seen four ways. */
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef, type CSSProperties } from 'react';
 import { steps } from '@/content/site';
 
 const SLICES = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -16,9 +16,9 @@ const LISTINGS = [
 ];
 type Listing = (typeof LISTINGS)[number];
 
-function GCard({ l }: { l: Listing }) {
+function GCard({ l, style }: { l: Listing; style?: CSSProperties }) {
   return (
-<div className="lens-info gcard">
+    <div className="lens-info gcard" style={style}>
       <div className="gsearch"><span>{l.name}</span><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" /><path d="M15 15l5 5" /></svg><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg></div>
       <span className="g360"><svg viewBox="0 0 24 24"><path d="M4 12a8 3.5 0 1 0 8-3.5" /><path d="M10 6.5l2 2-2 2" /></svg>Street View &amp; 360°</span>
       <h4>{l.name}</h4>
@@ -37,8 +37,26 @@ function GCard({ l }: { l: Listing }) {
   );
 }
 
-function ServicesLens({ phase, intro }: { phase: number; intro: number }) {
+const cl = (x: number) => Math.max(0, Math.min(1, x));
+const io = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const f3 = (x: number) => +x.toFixed(4);
+
+/*
+ * Everything here follows the scroll. t = [slices come together, photo becomes the Google card,
+ * card joins the row of four], each 0 to 1.
+ */
+function ServicesLens({ phase, intro, t }: { phase: number; intro: number; t: number[] }) {
   const cur = steps[phase];
+  const [t1, t2, t3] = t;
+  const e1 = io(t1), e2 = io(t2), e3 = io(t3);
+  const frame = cl((t1 - 0.75) / 0.25) * (1 - cl(t2 / 0.25));
+  const clip = t2 > 0
+    ? `inset(${f3(-30 * (1 - e2))}px round ${f3(72 * e2)}px ${f3(72 * e2)}px 0px 0px)`
+    : `inset(${t1 >= 1 ? -30 : -300}px round 0px 0px 0px 0px)`;
+  const winT = `translate(-50%, calc(-50% - ${f3(118 * e2)}px)) scale(${f3(1 - 0.5 * e2)})`;
+  const gIn = io(cl((t2 - 0.45) / 0.55));
+  const unitT = t3 > 0 ? `translate(calc(var(--x0) * ${f3(e3)}), calc(var(--y) * ${f3(e3)})) scale(calc(1 + (var(--f) - 1) * ${f3(e3)}))` : 'none';
+  const rep = (i: number) => io(cl((t3 - 0.3 - i * 0.14) / 0.42));
   const box = useRef<HTMLDivElement>(null);
   /* Fit the four cards in a row: one scale and four x offsets, written as CSS variables. */
   useEffect(() => {
@@ -62,18 +80,19 @@ function ServicesLens({ phase, intro }: { phase: number; intro: number }) {
   return (
     <section className="lens" id="services" aria-label="How it works">
       <div className={`lens-box ph${phase}`} aria-hidden="true" ref={box} style={{ opacity: intro, transform: `translateY(${((1 - intro) * 50).toFixed(1)}px)` }}>
-        <div className="lens-unit">
-        <div className="lens-win">
+        <div className="lens-unit" style={{ transform: unitT }}>
+        <div className="lens-win" style={{ transform: winT, clipPath: clip }}>
           {SLICES.map((i) => {
-            const k = i - 3.5, apart = phase === 0;
-            return <div key={i} className="lens-sl" style={{ left: i * 12.5 + '%', backgroundPosition: `${(i / 7) * 100}% 0`, transform: apart ? `translate(${k * 22}px, ${i % 2 ? 26 : -26}px) rotate(${k * 1.6}deg)` : 'none' }} />;
+            const k = i - 3.5, a = 1 - e1;
+            return <div key={i} className="lens-sl" style={{ left: i * 12.5 + '%', backgroundPosition: `${(i / 7) * 100}% 0`, transform: a > 0 ? `translate(${f3(k * 22 * a)}px, ${f3((i % 2 ? 26 : -26) * a)}px) rotate(${f3(k * 1.6 * a)}deg)` : 'none' }} />;
           })}
-          <div className="lens-frame" />
+          <div className="lens-fill" style={{ opacity: t1 >= 0.98 ? 1 : 0 }} />
+          <div className="lens-frame" style={{ opacity: f3(frame) }} />
         </div>
-          <GCard l={LISTINGS[0]} />
+          <GCard l={LISTINGS[0]} style={{ opacity: f3(gIn), transform: `translate(-50%, ${f3(14 * (1 - gIn))}px)` }} />
         </div>
         {LISTINGS.slice(1).map((l, i) => (
-          <div key={l.name} className={`lens-rep r${i + 1}`}>
+          <div key={l.name} className={`lens-rep r${i + 1}`} style={{ opacity: f3(rep(i)), transform: `translate(var(--x${i + 1}), calc(var(--y) + ${f3(60 * (1 - rep(i)))}px)) scale(var(--f))` }}>
             <div className={`grep-ph ${l.ph}`} />
             <GCard l={l} />
           </div>

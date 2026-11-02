@@ -40,6 +40,10 @@ const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
 const SV_W = [1, 1, 1.25, 1.6];
 const SV_CUT = [0.1];
 { const sum = SV_W.reduce((a, b) => a + b, 0); let c = 0; for (const w of SV_W) { c += w; SV_CUT.push(0.1 + (0.9 * c) / sum); } }
+/* Steps 2 to 4 open with their move, scrubbed by the scroll over the first part of the step; then the step rests */
+const SV_MOVE = 0.55;
+const svRest = (k: number) => (k === 0 ? SV_CUT[0] : SV_CUT[k] + SV_MOVE * (SV_CUT[k + 1] - SV_CUT[k]));
+const svMoves = (p: number) => [1, 2, 3].map((k) => Math.max(0, Math.min(1, (p - SV_CUT[k]) / (svRest(k) - SV_CUT[k]))));
 
 /*
  * The deck shares its timing with the main site, where the title holds for the first 34% of the
@@ -62,7 +66,7 @@ const BEATS: [number, number][] = [];
     const L = s.len, at = (f: number) => acc + f * L;
     if (s.play === 'sv') {
       BEATS.push([at(0), at(0.1)]);
-      for (let k = 0; k < 4; k++) BEATS.push([at(SV_CUT[k]), at(SV_CUT[k + 1])]);
+      for (let k = 0; k < 4; k++) BEATS.push([at(svRest(k)), at(SV_CUT[k + 1])]);
     } else if (s.play === 'dk') {
       BEATS.push([at(0), at(DK_TITLE)]);
       for (let i = 0; i < 5; i++) {
@@ -82,6 +86,7 @@ export default class RoomExperience extends HomeExperience {
   nav: HTMLElement | null = null;
   lastPos = -1;
   autoOpened = false;
+  rm = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   componentDidMount() {
     super.componentDidMount();
@@ -240,7 +245,7 @@ export default class RoomExperience extends HomeExperience {
         this.mlater(() => this.setState({ mp: 'open' }), 2100);
       }
       const upd: Record<string, unknown> = {};
-      if (Math.abs(sv - (this.state.svP || 0)) > 0.002) upd.svP = sv;
+      if (Math.abs(sv - (this.state.svP || 0)) > 0.0004 || (sv !== this.state.svP && (sv === 0 || sv === 1))) upd.svP = sv;
       if (Math.abs(dk - (this.state.dkP || 0)) > 0.002) upd.dkP = dk;
       if (this.state.gvOn) upd.gvOn = false;
       if (Object.keys(upd).length) this.setState(upd);
@@ -270,7 +275,7 @@ export default class RoomExperience extends HomeExperience {
                 </div>
               </div>
               <div className="rx-p"><section className="work hz-panel rx-work" id="work"><div className="wrap"><MapBlock v={this.mapVals()} /></div></section></div>
-              <div className="rx-p"><ServicesLens phase={phase} intro={+svIn.toFixed(3)} /></div>
+              <div className="rx-p"><ServicesLens phase={phase} intro={+svIn.toFixed(3)} t={this.rm ? svMoves(svP).map((x) => (x < 0.5 ? 0 : 1)) : svMoves(svP).map((x) => +x.toFixed(4))} /></div>
               <div className="rx-p rx-deck" id="benefits">
                 <header className="dk-head"><div className="dk-hi" style={{ opacity: +(1 - dkT[0]).toFixed(3), transform: `scale(${(1 - 0.06 * dkT[0]).toFixed(4)})` }}><h2>What changes<br />for you</h2></div></header>
                 <div className="dk-stage"><DeckCards c={dkC} /></div>
