@@ -3,8 +3,8 @@
  * Phones and portrait tablets: "One shoot, then you're everywhere" as a full-screen room.
  * The step title and text sit large on a cream panel at the bottom; the visual owns the space
  * above it. Scrolling captures the room (slices close up), stitches it (gold seams seal, then the
- * joined image glides past the screen edges), then a Google Maps place card floats in, then the
- * results list. Everything follows the scroll and the component updates its own styles, so it
+ * joined image glides past the screen edges), then the photo shrinks into a Google Maps place card
+ * on plain cream, then the results list. Everything follows the scroll and the component updates its own styles, so it
  * never re-renders the page.
  */
 import { useEffect, useRef } from 'react';
@@ -25,7 +25,8 @@ export default function MapsSheet() {
     const qa = (sel: string) => [...t.querySelectorAll<HTMLElement>(sel)];
     const stage = q('.ms-stage'), sl = qa('.ms-sl'), caps = qa('.ms-c'), seams = qa('.ms-seam');
     const fill = q('.ms-fill'), cont = q('.ms-cont'), edge = q('.ms-edge'), dim = q('.ms-dim'), capBox = q('.ms-cap');
-    const area = q('.ms-area'), card = q('.ms-card'), list = q('.ms-list');
+    const area = q('.ms-area'), card = q('.ms-card'), list = q('.ms-list'), photo = q('.ms-photo'), cream = q('.ms-cream');
+    const slot = card.querySelector('.gs-ph') as HTMLElement;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let last = -1, lastStep = -1, raf = 0;
 
@@ -72,13 +73,30 @@ export default function MapsSheet() {
       const glide = Math.sin(Math.PI * g);
       cont.style.opacity = glide.toFixed(3); edge.style.opacity = glide.toFixed(3);
       // 3 · the Google place card floats in over the room
-      const cIn = s3 * (1 - s4);
+      const cIn = cl((s3 - 0.72) / 0.28) * (1 - s4);
       card.style.opacity = cIn.toFixed(3);
       card.style.transform = `translate(-50%, -50%) translateY(${(40 * (1 - s3) - 24 * s4).toFixed(1)}px) scale(${(kCard * (1 - 0.06 * s4)).toFixed(4)})`;
       // 4 · it gives way to the results list
       list.style.opacity = cl((s4 - 0.3) / 0.7).toFixed(3);
       list.style.transform = `translate(-50%, -50%) translateY(${(40 * (1 - s4)).toFixed(1)}px) scale(${kList.toFixed(4)})`;
-      dim.style.opacity = (0.55 * s3).toFixed(3);
+      dim.style.opacity = '0';
+      // 3 · like desktop, the photo itself shrinks into the card's photo slot and the room behind
+      // gives way to plain cream: one photo becomes the listing, nothing doubled behind it
+      cream.style.opacity = p > 2 ? '1' : '0';
+      stage.style.setProperty('--sh', (1 - s3).toFixed(3));
+      if (p > 2) {
+        const sr = stage.getBoundingClientRect(), tr = slot.getBoundingClientRect();
+        const Wd = sr.width, Hd = sr.height, e = s3;
+        const sc = 1 + (tr.width / Wd - 1) * e;
+        const Hc = Hd + ((tr.height * Wd) / tr.width - Hd) * e;
+        const cut = (Hd - Hc) / 2, rad = (36 * e) / sc;
+        const dx = (tr.left - sr.left + tr.width / 2 - Wd / 2) * e, dy = (tr.top - sr.top + tr.height / 2 - Hd / 2) * e;
+        photo.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(${sc.toFixed(4)})`;
+        photo.style.clipPath = `inset(${cut.toFixed(1)}px 0px ${cut.toFixed(1)}px 0px round ${rad.toFixed(1)}px ${rad.toFixed(1)}px 0px 0px)`;
+        photo.style.opacity = (1 - s4).toFixed(3);
+      } else if (photo.style.transform) {
+        photo.style.transform = ''; photo.style.clipPath = ''; photo.style.opacity = '';
+      }
     };
     const on = () => { if (!raf) raf = requestAnimationFrame(draw); };
     const rs = () => { last = -1; fit(); on(); };
@@ -95,6 +113,7 @@ export default function MapsSheet() {
     <section className="ms" id="services" aria-label="How it works">
       <div className="ms-track" ref={track}>
         <div className="ms-stage">
+          <div className="ms-cream" aria-hidden="true" />
           <div className="ms-photo" aria-hidden="true">
             {SLICES.map((i) => <div key={i} className="ms-sl" style={{ left: i * 12.5 + '%' }} />)}
             <div className="ms-fill" />
