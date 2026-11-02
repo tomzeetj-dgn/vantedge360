@@ -144,7 +144,7 @@ export default class HomeExperience extends Component<object, S> {
   }
 
   fly(i: number) {
-    try { history.replaceState(null, '', '#' + SL[i]); } catch { /* ignore */ }
+    // Picking a place no longer writes #dubai, #greece… into the address. Links that arrive with one still open it.
     this.mt.forEach(clearTimeout); this.mt = [];
     const s = this.state;
     if (s.mp === 'map') {
