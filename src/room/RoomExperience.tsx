@@ -20,7 +20,7 @@ type Seg = { kind: 'move'; to: number } | { kind: 'stay'; at: number; len: numbe
 const SEGS: Seg[] = [
   { kind: 'stay', at: 0, len: 0.6 },
   { kind: 'move', to: 1 }, { kind: 'stay', at: 1, len: 0.9, id: 'work' },
-  { kind: 'move', to: 2 }, { kind: 'stay', at: 2, len: 3.6, id: 'services', play: 'sv' },
+  { kind: 'move', to: 2 }, { kind: 'stay', at: 2, len: 4.2, id: 'services', play: 'sv' },
   { kind: 'move', to: 3 }, { kind: 'stay', at: 3, len: 3.6, id: 'benefits', play: 'dk' },
   { kind: 'move', to: 4 }, { kind: 'stay', at: 4, len: 0.5, id: 'faq' },
   { kind: 'move', to: 5 }, { kind: 'stay', at: 5, len: 0.4, id: 'contact' },
@@ -32,6 +32,14 @@ const START: Record<string, number> = { top: 0 };
 const RATIO = 5200 / 1155; // panorama strip width / height
 const ease = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
+
+/*
+ * Services: the big title takes the first 10%, then the four steps. The later steps carry more
+ * motion (the Google card, then the row of four), so they get more scroll.
+ */
+const SV_W = [1, 1, 1.25, 1.6];
+const SV_CUT = [0.1];
+{ const sum = SV_W.reduce((a, b) => a + b, 0); let c = 0; for (const w of SV_W) { c += w; SV_CUT.push(0.1 + (0.9 * c) / sum); } }
 
 /*
  * The deck shares its timing with the main site, where the title holds for the first 34% of the
@@ -54,7 +62,7 @@ const BEATS: [number, number][] = [];
     const L = s.len, at = (f: number) => acc + f * L;
     if (s.play === 'sv') {
       BEATS.push([at(0), at(0.1)]);
-      for (let k = 0; k < 4; k++) BEATS.push([at(0.1 + k * 0.225), at(0.1 + (k + 1) * 0.225)]);
+      for (let k = 0; k < 4; k++) BEATS.push([at(SV_CUT[k]), at(SV_CUT[k + 1])]);
     } else if (s.play === 'dk') {
       BEATS.push([at(0), at(DK_TITLE)]);
       for (let i = 0; i < 5; i++) {
@@ -241,7 +249,7 @@ export default class RoomExperience extends HomeExperience {
 
   render() {
     const s = this.state;
-    const svP = s.svP || 0, svIn = Math.min(1, svP / 0.1), phase = Math.max(0, Math.min(3, Math.floor(((svP - 0.1) / 0.9) * 4)));
+    const svP = s.svP || 0, svIn = Math.min(1, svP / 0.1), phase = Math.max(0, SV_CUT.slice(0, 4).filter((c) => svP >= c).length - 1);
     const dvh = Math.min(typeof window !== 'undefined' ? window.innerHeight : 900, 1600);
     const { dkT, dkC } = this.deckVals(deckIn(s.dkP || 0), dvh);
     return (
