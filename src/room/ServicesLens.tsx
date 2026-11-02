@@ -52,7 +52,7 @@ function ServicesLens({ phase, intro, t }: { phase: number; intro: number; t: nu
         <div className="lens-win" style={{ transform: winT, clipPath: clip }}>
           {SLICES.map((i) => {
             const k = i - 3.5, a = 1 - e1;
-            return <div key={i} className="lens-sl" style={{ left: i * 12.5 + '%', backgroundPosition: `${(i / 7) * 100}% 0`, transform: a > 0 ? `translate(${f3(k * 22 * a)}px, ${f3((i % 2 ? 26 : -26) * a)}px) rotate(${f3(k * 1.6 * a)}deg)` : 'none' }} />;
+            return <div key={i} className="lens-sl" style={{ left: i * 12.5 + '%', backgroundPosition: `${(i / 7) * 100}% 50%`, transform: a > 0 ? `translate(${f3(k * 22 * a)}px, ${f3((i % 2 ? 26 : -26) * a)}px) rotate(${f3(k * 1.6 * a)}deg)` : 'none' }} />;
           })}
           <div className="lens-fill" style={{ opacity: t1 >= 0.98 ? 1 : 0 }} />
           <div className="lens-frame" style={{ opacity: f3(frame) }} />

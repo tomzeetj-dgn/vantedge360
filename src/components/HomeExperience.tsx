@@ -9,7 +9,6 @@
 import { Component } from 'react';
 import { destinations, formEndpoint, mapPins, steps as stepData } from '@/content/site';
 import Hero from './sections/Hero';
-import RoomBand from '@/room/RoomBand';
 import CredentialBand from './sections/CredentialBand';
 import WorkAndIntro from './sections/WorkAndIntro';
 import Services from './sections/Services';
@@ -24,8 +23,7 @@ type S = Record<string, any>;
 const SL = destinations.map((d) => d.id);
 
 export default class HomeExperience extends Component<object, S> {
-  /* Hooks for the phone version of the room branch: bands of the room, and swappable hero and services */
-  bands = false;
+  /* Hooks for the phone version of the room branch: swappable hero and services */
   heroEl(): React.ReactNode { return <Hero />; }
   servicesEl(v: S): React.ReactNode { return <Services v={v} />; }
   timers: ReturnType<typeof setTimeout>[] = [];
@@ -261,14 +259,10 @@ export default class HomeExperience extends Component<object, S> {
     return (
       <div className="hm">
         {this.heroEl()}
-        {this.bands && <RoomBand i={0} />}
         <CredentialBand />
         <WorkAndIntro v={work} />
-        {this.bands && <RoomBand i={1} />}
         {this.servicesEl(services)}
-        {this.bands && <RoomBand i={2} />}
         <Benefits v={benefits} />
-        {this.bands && <RoomBand i={3} />}
         <Faq open={s.fqA} onToggle={this.toggleFaq} />
         <Contact sent={s.ctSent} busy={s.ctBusy} err={s.ctErr} onSubmit={this.onSubmit} />
         <Footer />

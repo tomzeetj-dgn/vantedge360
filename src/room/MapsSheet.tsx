@@ -21,12 +21,21 @@ export default function MapsSheet() {
     const t = track.current; if (!t) return;
     const q = <T extends Element = HTMLElement>(sel: string) => t.querySelector(sel) as unknown as T;
     const qa = (sel: string) => [...t.querySelectorAll<HTMLElement>(sel)];
-    const sl = qa('.ms-sl'), caps = qa('.ms-c'), dots = qa('.ms-dots i'), chevs = qa('.ms-chev');
+    const sl = qa('.ms-sl'), caps = qa('.ms-c'), chevs = qa('.ms-chev');
     const fill = q('.ms-fill'), photo = q('.ms-photo'), sheet = q('.ms-sheet'), place = q('.ms-place'), list = q('.ms-list');
     const pill = q('.ms-search'), qtxt = q('.ms-q'), dim = q('.ms-dim'), capBox = q('.ms-cap');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let last = -1, lastStep = -1, raf = 0;
 
+    const IMG = 1200 / 880; // restaurant photo
+    const fit = () => {
+      const stage = t.querySelector<HTMLElement>('.ms-stage'); if (!stage) return;
+      const W = stage.offsetWidth, H = stage.offsetHeight;
+      const iw = W / H > IMG ? W : H * IMG, ih = W / H > IMG ? W / IMG : H;
+      const ox = (W - iw) / 2, oy = (H - ih) / 2;
+      sl.forEach((d, i) => { d.style.backgroundSize = `${iw}px ${ih}px`; d.style.backgroundPosition = `${ox - (i * W) / 8}px ${oy}px`; });
+    };
+    fit();
     const draw = () => {
       raf = 0;
       const r = t.getBoundingClientRect(), H = window.innerHeight;
@@ -37,7 +46,6 @@ export default function MapsSheet() {
       if (step !== lastStep) {
         lastStep = step;
         caps.forEach((c, i) => c.classList.toggle('on', i === step));
-        dots.forEach((d, i) => d.classList.toggle('on', i <= step));
       }
       const s1 = seg(p, 0, 0.9), s2 = seg(p, 1, 1.6), s3 = seg(p, 2, 2.6), s4 = seg(p, 3, 3.6);
       // 1 · the slices drift together as the room is captured
@@ -53,7 +61,7 @@ export default function MapsSheet() {
       // 3 · Maps takes over: search bar under the caption, the sheet rises with the place card
       pill.style.top = `${Math.round(capBox.getBoundingClientRect().bottom - t.querySelector('.ms-stage')!.getBoundingClientRect().top + 16)}px`;
       pill.style.opacity = s3.toFixed(3); pill.style.transform = `translateY(${(-10 * (1 - s3)).toFixed(1)}px)`;
-      const up = 0.44 * s3 + 0.26 * s4;
+      const up = 0.44 * s3 + 0.18 * s4;
       sheet.style.transform = `translateY(${((1 - up / 0.86) * 100).toFixed(2)}%)`;
       // 4 · the card gives way to the results list
       place.style.opacity = (1 - cl(s4 / 0.5)).toFixed(3);
@@ -63,7 +71,7 @@ export default function MapsSheet() {
       dim.style.opacity = (1 - 0.4 * s2 * (1 - s3)).toFixed(3);
     };
     const on = () => { if (!raf) raf = requestAnimationFrame(draw); };
-    const rs = () => { last = -1; on(); };
+    const rs = () => { last = -1; fit(); on(); };
     window.addEventListener('scroll', on, { passive: true });
     window.addEventListener('resize', rs);
     draw();
@@ -76,14 +84,13 @@ export default function MapsSheet() {
       <div className="ms-track" ref={track}>
         <div className="ms-stage">
           <div className="ms-photo" aria-hidden="true">
-            {SLICES.map((i) => <div key={i} className="ms-sl" style={{ left: i * 12.5 + '%', backgroundPosition: `${(i / 7) * 100}% 0` }} />)}
+            {SLICES.map((i) => <div key={i} className="ms-sl" style={{ left: i * 12.5 + '%' }} />)}
             <div className="ms-fill" />
             <div className="ms-chev" style={{ left: '50%' }}><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" /></svg></div>
             <div className="ms-chev" style={{ left: '22%' }}><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" /></svg></div>
             <div className="ms-chev" style={{ left: '78%' }}><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg></div>
           </div>
           <div className="ms-dim" aria-hidden="true" />
-          <div className="ms-dots" aria-hidden="true"><i className="on" /><i /><i /><i /></div>
           <div className="ms-cap">
             {steps.map((s, i) => (
               <div key={s[1]} className={`ms-c${i === 0 ? ' on' : ''}`}><h3 className="cap">{s[1]}</h3><p>{s[2]}</p></div>
