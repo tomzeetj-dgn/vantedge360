@@ -3,9 +3,16 @@
  * Phones and portrait tablets: the hero is the room itself. It drifts slowly; drag to look, or tap
  * "Tilt to look around" and turn the phone (iPhone and newer Android ask once). Updates its own
  * styles every frame, so it never re-renders the page.
+ *
+ * Opening: the little planet turns on cream, then grows and opens out into the room; the text
+ * rises in last. Waits for the images (never more than 4s), and is skipped for reduced motion, when
+ * the page opens part-way down, and after the end-of-page turn-around.
  */
 import { useEffect, useRef, useState } from 'react';
 import { images } from '@/content/site';
+import { heroPlanetSrc } from '@/content/assets';
+
+const load = (src: string) => new Promise<void>((res) => { const i = new Image(); i.onload = () => res(); i.onerror = () => res(); i.src = src; });
 
 const RATIO = 5200 / 1155;
 
@@ -17,6 +24,32 @@ export default function TiltHero() {
   const [live, setLive] = useState(false);
   const [hint, setHint] = useState('Or drag the room with your finger.');
   const liveRef = useRef(false);
+  const sec = useRef<HTMLElement>(null);
+  const [phase, setPhase] = useState<'wait' | 'grow' | 'done'>('wait');
+
+  useEffect(() => {
+    const el = sec.current; if (!el) return;
+    const skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.scrollY > 40;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    let started = false;
+    const finish = () => { timers.forEach(clearTimeout); started = true; setPhase('done'); };
+    window.addEventListener('vantedge:turned', finish);
+    if (skip) finish();
+    else {
+      const go = () => {
+        if (started) return; started = true;
+        // grow until the planet covers the whole screen
+        const pl = el.querySelector<HTMLElement>('.th-planet');
+        const size = pl?.offsetWidth || 300, diag = Math.hypot(el.offsetWidth, el.offsetHeight);
+        el.style.setProperty('--grow', ((diag / size) * 1.15).toFixed(3));
+        timers.push(setTimeout(() => setPhase('grow'), 900));
+        timers.push(setTimeout(() => setPhase('done'), 3200));
+      };
+      Promise.all([load(heroPlanetSrc), load(images.panoStrip)]).then(go);
+      timers.push(setTimeout(go, 4000));
+    }
+    return () => { timers.forEach(clearTimeout); window.removeEventListener('vantedge:turned', finish); };
+  }, []);
 
   // one stable listener: it only reads refs and state setters
   const onOri = useRef((e: DeviceOrientationEvent) => {
@@ -39,7 +72,7 @@ export default function TiltHero() {
       raf = requestAnimationFrame(frame);
       const r = el.getBoundingClientRect();
       if (r.bottom < 0) return; // scrolled away: nothing to draw
-      if (!liveRef.current && !s.drag && !reduce && now - s.idle > 2500) s.tYaw += 0.02;
+      if (!liveRef.current && !s.drag && !reduce && now - s.idle > 2500 && !el.closest('.th-wait')) s.tYaw += 0.02;
       s.yaw += (s.tYaw - s.yaw) * 0.12; s.pitch += (s.tPitch - s.pitch) * 0.12;
       const w = el.offsetHeight * RATIO;
       const x = -((((s.yaw % 360) + 360) % 360) / 360) * w + window.innerWidth / 2;
@@ -82,9 +115,10 @@ export default function TiltHero() {
   };
 
   return (
-    <section className={`th${live ? ' live' : ''}`} id="top" aria-label="Introduction">
+    <section className={`th th-${phase}${live ? ' live' : ''}`} ref={sec} id="top" aria-label="Introduction">
       <div className="th-pano" ref={pano} role="img" aria-label="360° view of a colonnaded hall. Drag to look around." />
       <div className="th-shade" aria-hidden="true" />
+      <div className="th-intro" aria-hidden="true"><div className="th-planet"><img src={heroPlanetSrc} alt="" draggable={false} /></div></div>
       <header className="th-top">
         <a className="th-logo" href="#top"><img src={images.logoGold} alt="VantEdge360" width={40} height={24} /><span>VANTEDGE</span></a>
         <a className="th-cta" href="#contact">Book a shoot</a>
