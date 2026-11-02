@@ -22,6 +22,14 @@ For a custom domain later (for example vantedge360.com), add it under Settings �
 
 Vercel, Netlify or any other static host also works with no changes: build command `npm run build`, output folder `out`.
 
+## The room version (`room` branch, /v2/)
+
+Wide landscape screens get a sideways turn through the page over a real 360° panorama. Phones and portrait tablets get a phone-first version: a tilt-to-look room hero that opens with the little planet, a Google Maps-style services sequence, a pinned card stack and an end-of-page turn-around. `src/room/` holds it; see `CLAUDE.md` for the map.
+
+**Sample content:** the Google cards (`src/room/gcard.tsx`) show four invented listings with invented ratings. Replace them with real client properties, or remove the ratings, before launch.
+
+**To ship it:** merge `room` into `main` (tag `main` first so the current site can be restored), then point the domain at it.
+
 ## Where things live
 
 | What | Where |
@@ -29,9 +37,9 @@ Vercel, Netlify or any other static host also works with no changes: build comma
 | Copy, FAQ, the services steps, the contact email and the form endpoint | `src/content/site.ts` |
 | The eight Google tours (two per destination) | `src/content/tours.json` |
 | Images | `public/images/` (used by `src/content/site.ts` and `app/home.css`) |
-| Page sections | `src/components/sections/` |
+| Page sections | `src/components/sections/` (shared) and `src/room/` (room version) |
 | Scroll engine and shared state | `src/components/HomeExperience.tsx` |
-| Styles | `app/home.css` (ported 1:1 from the approved design) and `app/legal.css` |
+| Styles | `app/home.css` (ported 1:1 from the approved design), `app/room.css` (room version) and `app/legal.css` |
 | Approved design and build spec | `design/`. Run `python3 design/reference/serve.py` to view it |
 
 ## Stand-in images
@@ -46,3 +54,5 @@ The hero planet and room view (`public/images/hero-planet.webp`, `hero-room.webp
 - [ ] **Property names.** Add the real names in `src/content/tours.json` (`propertyName`) and replace the placeholder labels.
 - [ ] **Legal pages.** Once the client approves the text, remove the "Draft · for client review" line and the `robots: { index: false }` setting from `app/privacy/page.tsx` and `app/terms/page.tsx`, and add the real date.
 - [ ] **Turnaround time.** Put the real time in the "How long does it take?" FAQ answer.
+- [ ] **Sample Google listings.** Replace the four invented listings in `src/room/gcard.tsx` with real client properties and their real ratings, or drop the ratings.
+- [ ] **Real-device check.** iPhone Safari and Android Chrome: tilt permission, address-bar resizing, scroll feel in the pinned sections.
