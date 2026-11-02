@@ -219,3 +219,14 @@ html:has(.rx){overscroll-behavior-y:none}
 @keyframes thSpin{to{transform:rotate(360deg)}}
 @keyframes thSafe{to{opacity:0;visibility:hidden}}
 @media (prefers-reduced-motion:reduce){.th-intro{display:none}.th-pano,.th-top,.th-bottom>*,.th-hud{transition:none}}
+
+/* What changes for you · phones and portrait tablets: pinned screen, cards stack in the middle */
+.pd{background:#FAF8F4}
+.pd-track{height:560svh;position:relative}
+.pd-pin{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden}
+.pd-head{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 22px;pointer-events:none}
+.pd-hi{will-change:opacity,transform}
+.pd-head h2{margin:0;color:#1E1C19;font-weight:400;font-size:clamp(2.8rem,12.5vw,4.8rem);letter-spacing:.06em;line-height:.95}
+.pd .pd-cards{position:absolute!important;left:50%!important;top:50%!important;width:min(88vw,620px)!important;height:0!important;margin:0!important;padding:0!important;display:block!important;transform:translateX(-50%)!important}
+.pd .pd-cards>.dk-card{position:absolute!important;left:0;right:0;top:0;inset:auto 0 auto 0;margin:0!important;animation:none!important;rotate:none!important;transform:var(--pt,translateY(120vh))!important;filter:var(--pf,none)!important;transform-origin:50% 50%;box-shadow:0 30px 60px -34px rgba(30,28,25,.45),0 1px 2px rgba(30,28,25,.06)}
+@media (min-width:861px){.pd .pd-cards{width:min(88vw,760px)!important}}

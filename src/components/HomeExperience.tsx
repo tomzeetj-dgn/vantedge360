@@ -23,9 +23,10 @@ type S = Record<string, any>;
 const SL = destinations.map((d) => d.id);
 
 export default class HomeExperience extends Component<object, S> {
-  /* Hooks for the phone version of the room branch: swappable hero and services */
+  /* Hooks for the phone version of the room branch: swappable hero, services and benefits */
   heroEl(): React.ReactNode { return <Hero />; }
   servicesEl(v: S): React.ReactNode { return <Services v={v} />; }
+  benefitsEl(v: S): React.ReactNode { return <Benefits v={v} />; }
   timers: ReturnType<typeof setTimeout>[] = [];
   mt: ReturnType<typeof setTimeout>[] = [];
   els: (HTMLElement | null)[] = [];
@@ -262,7 +263,7 @@ export default class HomeExperience extends Component<object, S> {
         <CredentialBand />
         <WorkAndIntro v={work} />
         {this.servicesEl(services)}
-        <Benefits v={benefits} />
+        {this.benefitsEl(benefits)}
         <Faq open={s.fqA} onToggle={this.toggleFaq} />
         <Contact sent={s.ctSent} busy={s.ctBusy} err={s.ctErr} onSubmit={this.onSubmit} />
         <Footer />
