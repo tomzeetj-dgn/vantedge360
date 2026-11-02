@@ -40,7 +40,9 @@ export default function PhoneDeck() {
         // start fully below the screen, whatever the card's height
         const y = (1 - e[i]) * (H / 2 + c.offsetHeight / 2 + 40) - depth * 14;
         const r = ROT[i] * (1 - depth * 0.15) + (1 - e[i]) * 7;
-        c.style.setProperty('--pt', `translateY(calc(-50% + ${y.toFixed(1)}px)) rotate(${r.toFixed(2)}deg) scale(${(1 - depth * 0.04).toFixed(3)})`);
+        // short screens (phones held sideways): shrink the card to fit the height
+        const fit = Math.min(1, (H - 32) / Math.max(1, c.offsetHeight));
+        c.style.setProperty('--pt', `translateY(calc(-50% + ${y.toFixed(1)}px)) rotate(${r.toFixed(2)}deg) scale(${(fit * (1 - depth * 0.04)).toFixed(3)})`);
         c.style.setProperty('--pf', `brightness(${(1 - depth * 0.05).toFixed(3)})`);
         c.style.zIndex = String(i + 1);
         c.classList.toggle('in', e[i] > 0.85);

@@ -9,7 +9,7 @@ import '@fontsource/roboto/500.css';
 import './home.css';
 import './room.css';
 import { u } from '@/content/base';
-import { heroRoomSrc } from '@/content/assets';
+import { heroPlanetSrc, heroRoomSrc } from '@/content/assets';
 
 const SITE = 'https://www.vantedge360.com';
 
@@ -35,7 +35,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <link rel="preload" as="image" href={heroRoomSrc} fetchPriority="high" />
+        {/* wide screens open on the room photo; phones open on the planet and the full panorama */}
+        <link rel="preload" as="image" href={heroRoomSrc} fetchPriority="high" media="(min-width: 1024px) and (orientation: landscape)" />
+        <link rel="preload" as="image" href={heroPlanetSrc} fetchPriority="high" media="not all and (min-width: 1024px) and (orientation: landscape)" />
       </head>
       <body>{children}</body>
     </html>

@@ -10,7 +10,7 @@
  */
 import { useEffect, useRef, useState } from 'react';
 import { images } from '@/content/site';
-import { heroPlanetSrc } from '@/content/assets';
+import { heroPlanetSrc, panoStripSrc } from '@/content/assets';
 
 const load = (src: string) => new Promise<void>((res) => { const i = new Image(); i.onload = () => res(); i.onerror = () => res(); i.src = src; });
 
@@ -45,7 +45,7 @@ export default function TiltHero() {
         timers.push(setTimeout(() => setPhase('grow'), 900));
         timers.push(setTimeout(() => setPhase('done'), 3200));
       };
-      Promise.all([load(heroPlanetSrc), load(images.panoStrip)]).then(go);
+      Promise.all([load(heroPlanetSrc), load(panoStripSrc)]).then(go);
       timers.push(setTimeout(go, 4000));
     }
     return () => { timers.forEach(clearTimeout); window.removeEventListener('vantedge:turned', finish); };

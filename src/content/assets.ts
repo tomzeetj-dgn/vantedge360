@@ -7,7 +7,9 @@ import villa from '../../public/images/villa.webp';
 import lounge from '../../public/images/lounge.webp';
 import suite from '../../public/images/suite.webp';
 import planet from '../../public/images/hero-planet.webp';
+import pano from '../../public/images/pano-strip.webp';
 
 export const heroRoomSrc = room.src;
 export const heroPlanetSrc = planet.src;
+export const panoStripSrc = pano.src;
 export const laterImages = [villa.src, lounge.src, suite.src];

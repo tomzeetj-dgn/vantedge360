@@ -125,12 +125,6 @@ html:has(.rx){overscroll-behavior-y:none}
 .gs-ph .gsearch{top:16px}
 .gs-ph .g360{top:auto;bottom:14px;left:16px}
 .gstatic .lens-info.gcard{position:relative;left:auto;top:auto;width:auto;transform:none;opacity:1;box-shadow:none;border-radius:0 0 36px 36px}
-.mv .gstatic,.mv .glist{display:none}
-.mv.mv2,.mv.mv3{aspect-ratio:auto;padding:7cqw 6cqw}
-.mv2 .gstatic{display:block;opacity:clamp(0,calc(var(--p) * 2),1);transform:translateY(calc((1 - var(--p)) * 22cqw))}
-.mv2 .gs-ph{clip-path:inset(0 0 calc((1 - var(--p)) * 100%) 0 round 36px 36px 0 0)}
-.mv3 .glist{display:block}
-.mv3 .grow{opacity:clamp(0,calc((var(--p) - var(--k) * .16) * 3.2),1);transform:translateY(calc(clamp(0,calc(1 - (var(--p) - var(--k) * .16) * 3.2),1) * 10cqw))}
 .glist{background:#fff;border-radius:28px;padding:10px 0 6px;box-shadow:0 30px 60px -30px rgba(30,28,25,.35),0 1px 3px rgba(60,64,67,.3);font-family:Roboto,Arial,sans-serif;color:#1f1f1f;text-align:left}
 .ghandle{display:block;width:36px;height:4px;border-radius:2px;background:#dadce0;margin:0 auto 6px}
 .grow{display:flex;gap:14px;align-items:center;padding:12px 18px;border-top:1px solid #e8eaed}
@@ -140,13 +134,7 @@ html:has(.rx){overscroll-behavior-y:none}
 .grow .grate,.grow .gcat{margin-top:3px;font-size:.82rem}
 .g360s{display:inline-block;margin-top:8px;font-size:.72rem;font-weight:500;color:#1b4a52;background:#daf6fe;border-radius:12px;padding:3px 9px}
 .grow-ph{display:block;width:76px;height:76px;flex:none;border-radius:12px;background-size:cover;background-position:center}
-/* the sticky stage (portrait tablets wider than 900px) */
-.stage .pcard{width:400px;height:auto;margin:-218px 0 0 -200px;background:none;border:0}
-.sglist{position:absolute;left:50%;top:50%;width:420px;transform:translate(-50%,-46%);opacity:0;transition:opacity .6s ease,transform .8s cubic-bezier(.2,.7,.1,1);z-index:2;pointer-events:none}
-.st3 .sglist{opacity:1;transform:translate(-50%,-50%);transition-delay:.5s}
 .gs-ph svg{fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.st2 .slice,.st2 .seam,.st2 .pin{opacity:0!important;transition:opacity .4s}
-.dk-pa .stage .sglist{opacity:1;transform:translate(-50%,-50%);transition:none}
 
 /* ===== Phones and portrait tablets (room version) ===== */
 
@@ -230,3 +218,23 @@ html:has(.rx){overscroll-behavior-y:none}
 .pd .pd-cards{position:absolute!important;left:50%!important;top:50%!important;width:min(88vw,620px)!important;height:0!important;margin:0!important;padding:0!important;display:block!important;transform:translateX(-50%)!important}
 .pd .pd-cards>.dk-card{position:absolute!important;left:0;right:0;top:0;inset:auto 0 auto 0;margin:0!important;animation:none!important;rotate:none!important;transform:var(--pt,translateY(120vh))!important;filter:var(--pf,none)!important;transform-origin:50% 50%;box-shadow:0 30px 60px -34px rgba(30,28,25,.45),0 1px 2px rgba(30,28,25,.06)}
 @media (min-width:861px){.pd .pd-cards{width:min(88vw,760px)!important}}
+
+/* ===== Phones held sideways (short landscape) ===== */
+@media (orientation:landscape) and (max-height:520px){
+.th{min-height:0}
+.th h1{font-size:clamp(1.5rem,11vh,2.6rem)}
+.th-sub{margin-top:8px;font-size:.85rem;max-width:26rem}
+.th-go{margin-top:14px;padding:12px 16px}
+.th-hint{display:none}
+.th-bottom{padding-bottom:calc(16px + env(safe-area-inset-bottom));padding-right:45%}
+.th-hud{left:76%;top:52%}
+.th-top{padding-top:14px}
+.ms-cap{left:auto;right:0;top:0;bottom:0;width:42%;align-content:center;padding:20px clamp(20px,3vw,32px) 20px;box-shadow:-24px 0 40px -26px rgba(0,0,0,calc(.55 * var(--sh,1)))}
+.ms-c h3{font-size:clamp(1.3rem,7vh,2rem)}
+.ms-c p{font-size:.92rem;margin-top:8px}
+.ms-area{right:42%}
+.ms-cont{left:29%}
+.pd-head h2{font-size:clamp(2rem,16vh,4rem)}
+}
+/* readable menu over bright parts of the room: a soft dark fade behind it */
+.rx-nav::before{content:'';position:absolute;left:0;right:0;top:0;height:150px;background:linear-gradient(180deg,rgba(20,18,15,.62) 0%,rgba(20,18,15,.38) 45%,rgba(20,18,15,0) 100%);pointer-events:none;z-index:-1}

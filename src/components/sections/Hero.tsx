@@ -7,6 +7,7 @@
 import { Component } from 'react';
 import { images } from '@/content/site';
 import { heroPlanetSrc, heroRoomSrc, laterImages } from '@/content/assets';
+import { WIDE } from '@/room/Gate';
 
 const load = (src: string) => new Promise<void>((res) => { const i = new Image(); i.onload = () => res(); i.onerror = () => res(); i.src = src; });
 
@@ -19,6 +20,8 @@ export default class Hero extends Component<object, S> {
   state: S = { ready: false, phase: 'photo', pos: 50, dir: 1, drag: false, touched: false, spin: 0, pdrag: false, moved: false };
 
   componentDidMount() {
+    // On phones this copy is only in the page for a moment before the phone version takes over: load nothing
+    if (!window.matchMedia(WIDE).matches) return;
     this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     window.addEventListener('vantedge:turned', this.onTurned);
     // Start the intro only once the photo and planet are in, so nothing animates empty. Never wait more than 4s.

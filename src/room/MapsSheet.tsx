@@ -40,9 +40,11 @@ export default function MapsSheet() {
       sl.forEach((d) => { d.style.backgroundSize = `${iw}px ${ih}px`; });
       place8(0);
       // the visual gets everything above the caption panel
+      // phones held sideways: the caption sits on the right, so the visual gets the full height
+      const side = window.matchMedia('(orientation: landscape) and (max-height: 520px)').matches;
       const capH = capBox.offsetHeight;
-      area.style.bottom = `${capH + 18}px`;
-      cont.style.bottom = `${capH + 22}px`;
+      area.style.bottom = side ? '14px' : `${capH + 18}px`;
+      cont.style.bottom = side ? '18px' : `${capH + 22}px`;
       const room = area.offsetHeight;
       kCard = Math.min(1, room / Math.max(1, card.offsetHeight));
       kList = Math.min(1, room / Math.max(1, list.offsetHeight));
