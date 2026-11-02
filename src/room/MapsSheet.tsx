@@ -1,8 +1,8 @@
 'use client';
 /*
  * Phones and portrait tablets: "One shoot, then you're everywhere" as a full-screen room with a
- * Google Maps panel. Scrolling captures the room (slices close up), walks into it (Street View
- * arrows), then raises the place card and the results list. Everything follows the scroll and the
+ * Google Maps panel. Scrolling captures the room (slices close up), stitches it (gold seams seal,
+ * then the joined image glides past the screen edges), then raises the place card and the results list. Everything follows the scroll and the
  * component updates its own styles, so it never re-renders the page.
  */
 import { useEffect, useRef } from 'react';
@@ -21,19 +21,22 @@ export default function MapsSheet() {
     const t = track.current; if (!t) return;
     const q = <T extends Element = HTMLElement>(sel: string) => t.querySelector(sel) as unknown as T;
     const qa = (sel: string) => [...t.querySelectorAll<HTMLElement>(sel)];
-    const sl = qa('.ms-sl'), caps = qa('.ms-c'), chevs = qa('.ms-chev');
-    const fill = q('.ms-fill'), photo = q('.ms-photo'), sheet = q('.ms-sheet'), place = q('.ms-place'), list = q('.ms-list');
-    const pill = q('.ms-search'), qtxt = q('.ms-q'), dim = q('.ms-dim'), capBox = q('.ms-cap');
+    const sl = qa('.ms-sl'), caps = qa('.ms-c'), seams = qa('.ms-seam');
+    const fill = q('.ms-fill'), cont = q('.ms-cont'), edge = q('.ms-edge'), sheet = q('.ms-sheet'), place = q('.ms-place'), list = q('.ms-list');
+    const pill = q('.ms-search'), qtxt = q('.ms-q'), capBox = q('.ms-cap');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let last = -1, lastStep = -1, raf = 0;
 
     const IMG = 1200 / 880; // restaurant photo
+    let W = 0, iw = 0, ox = 0, oy = 0;
+    const place8 = (pan: number) => sl.forEach((d, i) => { d.style.backgroundPosition = `${(ox + pan - (i * W) / 8).toFixed(1)}px ${oy.toFixed(1)}px`; });
     const fit = () => {
       const stage = t.querySelector<HTMLElement>('.ms-stage'); if (!stage) return;
-      const W = stage.offsetWidth, H = stage.offsetHeight;
-      const iw = W / H > IMG ? W : H * IMG, ih = W / H > IMG ? W / IMG : H;
-      const ox = (W - iw) / 2, oy = (H - ih) / 2;
-      sl.forEach((d, i) => { d.style.backgroundSize = `${iw}px ${ih}px`; d.style.backgroundPosition = `${ox - (i * W) / 8}px ${oy}px`; });
+      W = stage.offsetWidth; const H = stage.offsetHeight;
+      iw = W / H > IMG ? W : H * IMG; const ih = W / H > IMG ? W / IMG : H;
+      ox = (W - iw) / 2; oy = (H - ih) / 2;
+      sl.forEach((d) => { d.style.backgroundSize = `${iw}px ${ih}px`; });
+      place8(0);
     };
     fit();
     const draw = () => {
@@ -47,17 +50,24 @@ export default function MapsSheet() {
         lastStep = step;
         caps.forEach((c, i) => c.classList.toggle('on', i === step));
       }
-      const s1 = seg(p, 0, 0.9), s2 = seg(p, 1, 1.6), s3 = seg(p, 2, 2.6), s4 = seg(p, 3, 3.6);
+      const s1 = seg(p, 0, 0.9), s3 = seg(p, 2, 2.6), s4 = seg(p, 3, 3.6);
+      // 2 · stitch: gold seams open a hair between the slices and seal; then pan: the joined
+      // image glides past the edge of the screen and back, one continuous view
+      const st = cl((p - 1) / 0.4), bump = Math.sin(Math.PI * st);
+      const g = seg(p, 1.4, 1.95), pan = -0.85 * Math.max(0, (iw - W) / 2) * Math.sin(Math.PI * g);
+      const gap = 7 * bump;
       // 1 · the slices drift together as the room is captured
       sl.forEach((d, i) => {
         const k = i - 3.5, a = 1 - s1;
-        d.style.transform = `translate(${(k * 26 * a).toFixed(1)}px, ${((i % 2 ? 60 : -60) * a).toFixed(1)}px) rotate(${(k * 2.4 * a).toFixed(2)}deg) scale(${(1 - 0.22 * a).toFixed(3)})`;
+        d.style.transform = `translate(${(k * 26 * a + k * gap).toFixed(1)}px, ${((i % 2 ? 60 : -60) * a).toFixed(1)}px) rotate(${(k * 2.4 * a).toFixed(2)}deg) scale(${(1 - 0.22 * a).toFixed(3)})`;
         d.style.opacity = (0.55 + 0.45 * cl(p / 0.4)).toFixed(3);
       });
-      fill.style.opacity = s1 >= 0.999 ? '1' : '0';
-      // 2 · walk into the room; Street View arrows appear
-      photo.style.transform = `scale(${(1 + 0.14 * s2).toFixed(4)})`;
-      chevs.forEach((c, i) => { const v = cl((s2 - i * 0.15) / 0.5) * (1 - s3); c.style.opacity = v.toFixed(3); c.style.transform = `translateY(${(12 * (1 - v)).toFixed(1)}px)`; });
+      place8(pan);
+      seams.forEach((m, j) => { const i = j + 1; m.style.transform = `translateX(${((i * W) / 8 + (i - 3.5) * gap - gap / 2).toFixed(1)}px)`; m.style.opacity = (0.95 * bump).toFixed(3); });
+      const stepTwo = p > 1.0005 && p < 1.9995;
+      fill.style.opacity = s1 >= 0.999 && !stepTwo ? '1' : '0';
+      const glide = Math.sin(Math.PI * g);
+      cont.style.opacity = glide.toFixed(3); edge.style.opacity = glide.toFixed(3);
       // 3 · Maps takes over: search bar under the caption, the sheet rises with the place card
       pill.style.top = `${Math.round(capBox.getBoundingClientRect().bottom - t.querySelector('.ms-stage')!.getBoundingClientRect().top + 16)}px`;
       pill.style.opacity = s3.toFixed(3); pill.style.transform = `translateY(${(-10 * (1 - s3)).toFixed(1)}px)`;
@@ -68,7 +78,6 @@ export default function MapsSheet() {
       list.style.opacity = cl((s4 - 0.35) / 0.65).toFixed(3);
       list.style.transform = `translateY(${(16 * (1 - s4)).toFixed(1)}px)`;
       qtxt.textContent = s4 > 0.4 ? '360° tours near me' : LISTINGS[0].name;
-      dim.style.opacity = (1 - 0.4 * s2 * (1 - s3)).toFixed(3);
     };
     const on = () => { if (!raf) raf = requestAnimationFrame(draw); };
     const rs = () => { last = -1; fit(); on(); };
@@ -86,9 +95,9 @@ export default function MapsSheet() {
           <div className="ms-photo" aria-hidden="true">
             {SLICES.map((i) => <div key={i} className="ms-sl" style={{ left: i * 12.5 + '%' }} />)}
             <div className="ms-fill" />
-            <div className="ms-chev" style={{ left: '50%' }}><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" /></svg></div>
-            <div className="ms-chev" style={{ left: '22%' }}><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" /></svg></div>
-            <div className="ms-chev" style={{ left: '78%' }}><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg></div>
+            {SLICES.slice(1).map((i) => <i key={i} className="ms-seam" />)}
+            <div className="ms-edge" />
+            <div className="ms-cont"><i />One continuous view<i /></div>
           </div>
           <div className="ms-dim" aria-hidden="true" />
           <div className="ms-cap">
