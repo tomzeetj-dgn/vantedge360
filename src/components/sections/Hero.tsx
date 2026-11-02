@@ -17,7 +17,7 @@ export default class Hero extends Component<object, S> {
   timers: ReturnType<typeof setTimeout>[] = [];
   t1?: ReturnType<typeof setInterval>;
   reduce = false;
-  state: S = { ready: false, phase: 'photo', pos: 50, dir: 1, drag: false, touched: false, spin: 0, pdrag: false, moved: false };
+  state: S = { ready: false, phase: 'photo', pos: 50, dir: 1, drag: false, touched: false };
 
   componentDidMount() {
     // On phones this copy is only in the page for a moment before the phone version takes over: load nothing
@@ -62,14 +62,9 @@ export default class Hero extends Component<object, S> {
       shadeCls: dark ? 'show' : '', navCls: dark ? 'dark' : '',
       planetCls: ph === 'planet' ? 'show' : ph === 'inside' ? 'dive' : '',
       insideCls: ph === 'inside' ? 'show' : '',
-      spinDeg: s.spin.toFixed(1),
       onDown: (e: React.PointerEvent<HTMLDivElement>) => { if (ph !== 'inside' && ph !== 'room') return; try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* */ } this.setState({ drag: true, touched: true, x0: e.clientX, p0: s.pos }); },
       onMove: (e: React.PointerEvent) => { const t = this.state; if (!t.drag) return; this.setState({ pos: Math.max(0, Math.min(100, t.p0 - (e.clientX - t.x0) / 6)) }); },
       onUp: () => { if (this.state.drag) this.setState({ drag: false }); },
-      pDown: (e: React.PointerEvent<HTMLButtonElement>) => { try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* */ } this.setState({ pdrag: true, moved: false, px0: e.clientX, s0: s.spin }); },
-      pMove: (e: React.PointerEvent) => { const t = this.state; if (!t.pdrag) return; const dx = e.clientX - t.px0; this.setState({ spin: t.s0 + dx * 0.4, moved: t.moved || Math.abs(dx) > 5 }); },
-      pUp: () => { if (this.state.pdrag) this.setState({ pdrag: false }); },
-      pClick: () => { if (!this.state.moved) this.setState({ phase: 'inside', pos: 40, touched: false }); },
       enter: () => this.setState({ phase: 'inside', pos: 40, touched: false }),
       fold: () => this.setState({ phase: 'planet' }),
     };
@@ -85,8 +80,7 @@ export default class Hero extends Component<object, S> {
         <div className="wrap flankin"><h1 className="cap fh fl">Step inside</h1><div /><div className="cap fh fr">before you arrive</div></div>
       </div>
       <div className={`planetwrap ${v.planetCls}`}>
-        <div className="orbit" style={{ transform: `rotate(${v.spinDeg}deg)` }} />
-        <button className="pbtn" style={{ transform: `rotate(${v.spinDeg}deg)` }} onPointerDown={v.pDown} onPointerMove={v.pMove} onPointerUp={v.pUp} onClick={v.pClick} aria-label="Step inside the 360° tour">
+        <button className="pbtn" onClick={v.enter} aria-label="Step inside the 360° tour">
           <div className="spin"><img src={heroPlanetSrc} alt="" draggable={false} fetchPriority="high" /></div>
         </button>
       </div>

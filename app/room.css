@@ -238,3 +238,8 @@ html:has(.rx){overscroll-behavior-y:none}
 }
 /* readable menu over bright parts of the room: a soft dark fade behind it */
 .rx-nav::before{content:'';position:absolute;left:0;right:0;top:0;height:150px;background:linear-gradient(180deg,rgba(20,18,15,.62) 0%,rgba(20,18,15,.38) 45%,rgba(20,18,15,0) 100%);pointer-events:none;z-index:-1}
+/* hero planet: turns on its own, opens the tour on click; no ring, no drag */
+.hero .pbtn{cursor:pointer;touch-action:auto;transition:transform .6s cubic-bezier(.2,.7,.1,1)}
+.hero .pbtn:active{cursor:pointer}
+@media (hover:hover){.hero .pbtn:hover{transform:scale(1.035)}}
+.hero .orbit{display:none}
