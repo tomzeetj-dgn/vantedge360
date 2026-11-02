@@ -84,9 +84,11 @@ export default function MapsSheet() {
     const rs = () => { last = -1; fit(); on(); };
     window.addEventListener('scroll', on, { passive: true });
     window.addEventListener('resize', rs);
+    // iPhone: the address bar collapsing changes the screen height without always firing resize
+    window.visualViewport?.addEventListener('resize', rs);
     fit(); draw();
     const late = setTimeout(rs, 800); // fonts in: caption height may have changed
-    return () => { clearTimeout(late); cancelAnimationFrame(raf); window.removeEventListener('scroll', on); window.removeEventListener('resize', rs); };
+    return () => { clearTimeout(late); cancelAnimationFrame(raf); window.removeEventListener('scroll', on); window.removeEventListener('resize', rs); window.visualViewport?.removeEventListener('resize', rs); };
   }, []);
 
   return (

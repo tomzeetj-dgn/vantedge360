@@ -173,9 +173,9 @@ html:has(.rx){overscroll-behavior-y:none}
 .th-hint{margin:14px 0 0;font-size:.82rem;color:rgba(250,248,244,.74);min-height:1.3em}
 
 /* services: the Google Maps sheet */
-.ms{background:#1B1916}
+.ms{background:#FAF8F4}
 .ms-track{height:520svh;position:relative}
-.ms-stage{position:sticky;top:0;height:100svh;overflow:hidden;background:#1B1916;color:#FAF8F4}
+.ms-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;background:#1B1916;color:#FAF8F4}
 .ms-photo{position:absolute;inset:0;transform-origin:50% 60%}
 .ms-sl{position:absolute;top:0;height:100%;width:calc(12.5% + 1px);background:url(../public/images/restaurant.webp) 0 0/800% 100%}
 .ms-fill{position:absolute;inset:0;background:url(../public/images/restaurant.webp) center/cover;opacity:0}
