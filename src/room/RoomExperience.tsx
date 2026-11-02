@@ -55,23 +55,21 @@ const deckOut = (d: number) => (d <= 0.34 ? (d / 0.34) * DK_TITLE : DK_TITLE + (
  * keyboard moves one beat per press.
  */
 const BEATS: [number, number][] = [];
-/* How long each beat holds a fast scroll, in ms: long enough for its animation to play */
-const DWELL: number[] = [];
 {
   let acc = 0;
   for (const s of SEGS) {
     if (s.kind === 'move') { acc += MOVE; continue; }
     const L = s.len, at = (f: number) => acc + f * L;
     if (s.play === 'sv') {
-      BEATS.push([at(0), at(0.1)]); DWELL.push(500);
-      for (let k = 0; k < 4; k++) { BEATS.push([at(SV_CUT[k]), at(SV_CUT[k + 1])]); DWELL.push([1100, 1100, 1300, 2000][k]); }
+      BEATS.push([at(0), at(0.1)]);
+      for (let k = 0; k < 4; k++) BEATS.push([at(SV_CUT[k]), at(SV_CUT[k + 1])]);
     } else if (s.play === 'dk') {
-      BEATS.push([at(0), at(DK_TITLE)]); DWELL.push(500);
+      BEATS.push([at(0), at(DK_TITLE)]);
       for (let i = 0; i < 5; i++) {
         const st = 0.34 + i * 0.125;
-        BEATS.push([at(deckOut(st + 0.11)), i < 4 ? at(deckOut(st + 0.14)) : at(1)]); DWELL.push(700);
+        BEATS.push([at(deckOut(st + 0.11)), i < 4 ? at(deckOut(st + 0.14)) : at(1)]);
       }
-    } else { BEATS.push([acc, acc + L]); DWELL.push(s.id === 'work' ? 1200 : s.id ? 900 : 600); }
+    } else BEATS.push([acc, acc + L]);
     acc += L;
   }
 }
@@ -90,7 +88,6 @@ export default class RoomExperience extends HomeExperience {
     document.addEventListener('click', this.onLink);
     window.addEventListener('scroll', this.onIdle, { passive: true });
     window.addEventListener('keydown', this.onKey);
-    window.addEventListener('wheel', this.onWheel, { passive: false });
     for (const ev of ['wheel', 'touchstart', 'mousedown']) window.addEventListener(ev, this.stopTween, { passive: true });
     this.setState({ mapIn: true });
   }
@@ -100,7 +97,6 @@ export default class RoomExperience extends HomeExperience {
     document.removeEventListener('click', this.onLink);
     window.removeEventListener('scroll', this.onIdle);
     window.removeEventListener('keydown', this.onKey);
-    window.removeEventListener('wheel', this.onWheel);
     for (const ev of ['wheel', 'touchstart', 'mousedown']) window.removeEventListener(ev, this.stopTween);
     clearTimeout(this.idleT);
     this.stopTween();
@@ -156,41 +152,6 @@ export default class RoomExperience extends HomeExperience {
       const [a, z] = inset(pick);
       this.glide(Math.max(a, Math.min(z, uu)), 450, easeOut);
     }, 320);
-  };
-
-  /*
-   * Beat stops: a wheel or trackpad gesture that crosses into a new beat stops at it. The beat
-   * holds for its dwell time and the rest of that gesture's momentum is absorbed; the next gesture
-   * carries on. Slow scrolling inside a beat or along a move between panels stays free.
-   */
-  hold: { until: number; last: number; cap: number } | null = null;
-  onWheel = (e: WheelEvent) => {
-    if (e.ctrlKey || e.defaultPrevented) return;
-    const t = this.track; if (!t) return;
-    const now = performance.now(), vh = window.innerHeight;
-    const dy = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? vh : 1);
-    if (Math.abs(dy) < 0.5 || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-    if (this.hold) {
-      const gap = now - this.hold.last;
-      this.hold.last = now;
-      const free = now > this.hold.until && (gap > 140 || now > this.hold.cap);
-      if (!free) { e.preventDefault(); return; }
-      this.hold = null;
-    }
-    const top = t.getBoundingClientRect().top + window.scrollY;
-    const uu = (window.scrollY - top) / vh, u2 = (window.scrollY + dy - top) / vh;
-    if (uu < -1.05 || uu > TOTAL + 0.05) return;
-    let gate = -1, gi = -1;
-    BEATS.forEach((b, i) => {
-      const [a, z] = inset(b);
-      if (dy > 0 && uu < a - 0.01 && u2 >= a && (gi < 0 || a < gate)) { gate = a; gi = i; }
-      if (dy < 0 && uu > z + 0.01 && u2 <= z && (gi < 0 || z > gate)) { gate = z; gi = i; }
-    });
-    if (gi < 0) return;
-    e.preventDefault();
-    this.stopTween();
-    window.scrollTo({ top: top + gate * vh, behavior: 'instant' as ScrollBehavior });
-    this.hold = { until: now + DWELL[gi], last: now, cap: now + DWELL[gi] + 900 };
   };
 
   /* Space, Page Up/Down and the arrow keys move one beat at a time through the sideways part */
