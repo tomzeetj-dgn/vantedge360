@@ -118,3 +118,32 @@ html:has(.rx){overscroll-behavior-y:none}
 .ta-back{display:inline-block;margin-top:1rem;color:#FAF8F4;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;border-bottom:1px solid #B8975F;padding-bottom:4px;text-decoration:none}
 .ta-layer{display:none}
 }
+
+/* ===== Google cards on narrow screens (same listings as the wide room) ===== */
+.gstatic{position:relative;width:100%;border-radius:36px;background:#fff;box-shadow:0 30px 60px -30px rgba(30,28,25,.35),0 1px 3px rgba(60,64,67,.3)}
+.gs-ph{position:relative;aspect-ratio:2/1;border-radius:36px 36px 0 0;background-size:cover;background-position:center}
+.gs-ph .gsearch{top:16px}
+.gs-ph .g360{top:auto;bottom:14px;left:16px}
+.gstatic .lens-info.gcard{position:relative;left:auto;top:auto;width:auto;transform:none;opacity:1;box-shadow:none;border-radius:0 0 36px 36px}
+.mv .gstatic,.mv .glist{display:none}
+.mv.mv2,.mv.mv3{aspect-ratio:auto;padding:7cqw 6cqw}
+.mv2 .gstatic{display:block;opacity:clamp(0,calc(var(--p) * 2),1);transform:translateY(calc((1 - var(--p)) * 22cqw))}
+.mv2 .gs-ph{clip-path:inset(0 0 calc((1 - var(--p)) * 100%) 0 round 36px 36px 0 0)}
+.mv3 .glist{display:block}
+.mv3 .grow{opacity:clamp(0,calc((var(--p) - var(--k) * .16) * 3.2),1);transform:translateY(calc(clamp(0,calc(1 - (var(--p) - var(--k) * .16) * 3.2),1) * 10cqw))}
+.glist{background:#fff;border-radius:28px;padding:10px 0 6px;box-shadow:0 30px 60px -30px rgba(30,28,25,.35),0 1px 3px rgba(60,64,67,.3);font-family:Roboto,Arial,sans-serif;color:#1f1f1f;text-align:left}
+.ghandle{display:block;width:36px;height:4px;border-radius:2px;background:#dadce0;margin:0 auto 6px}
+.grow{display:flex;gap:14px;align-items:center;padding:12px 18px;border-top:1px solid #e8eaed}
+.ghandle+.grow{border-top:0}
+.grow-tx{flex:1;min-width:0}
+.grow-tx b{display:block;font-weight:400;font-size:1.05rem;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grow .grate,.grow .gcat{margin-top:3px;font-size:.82rem}
+.g360s{display:inline-block;margin-top:8px;font-size:.72rem;font-weight:500;color:#1b4a52;background:#daf6fe;border-radius:12px;padding:3px 9px}
+.grow-ph{display:block;width:76px;height:76px;flex:none;border-radius:12px;background-size:cover;background-position:center}
+/* the sticky stage (portrait tablets wider than 900px) */
+.stage .pcard{width:400px;height:auto;margin:-218px 0 0 -200px;background:none;border:0}
+.sglist{position:absolute;left:50%;top:50%;width:420px;transform:translate(-50%,-46%);opacity:0;transition:opacity .6s ease,transform .8s cubic-bezier(.2,.7,.1,1);z-index:2;pointer-events:none}
+.st3 .sglist{opacity:1;transform:translate(-50%,-50%);transition-delay:.5s}
+.gs-ph svg{fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.st2 .slice,.st2 .seam,.st2 .pin{opacity:0!important;transition:opacity .4s}
+.dk-pa .stage .sglist{opacity:1;transform:translate(-50%,-50%);transition:none}

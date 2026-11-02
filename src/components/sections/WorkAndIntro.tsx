@@ -16,7 +16,6 @@ function WorkAndIntro({ v }: { v: any }) {
             <div className="wrap hz-bin">
               <div className="hz-tt" style={{ opacity: v.hzTitleOp, transform: `translateY(${v.hzTitleY}px)` }}>
                 <h2 className="cap">One shoot,<br />then you’re everywhere</h2>
-                <p>Here’s what happens, in order. It starts with one visit to your place and ends with your tour wherever guests look you up.</p>
               </div>
             </div>
           </section>

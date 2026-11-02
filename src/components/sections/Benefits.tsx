@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { memoByData } from '../memo';
 import { images } from '@/content/site';
-import { Minis } from './Services';
+import { MapsList } from '@/room/gcard';
 
 const cards = [
   { h: 'Easier to find', p: 'A listing with a 360° tour gets more attention in Search and Maps.' },
@@ -44,16 +44,15 @@ function Benefits({ v }: { v: any }) {
             <div className="wrap"><div className="grid">
               <div className="steps dk-steps">
                 <div className="rail dk-rail2"><div className="railfill" style={{ height: '100%' }} /></div>
-                <article className="step on dk-last"><div className="sbtn"><span className="dot" /><h3 className="cap">Got more than one place?</h3></div><p>Hotels, villas, branches, stores. We shoot every one the same way, and you deal with one person throughout.</p><ul className="tags"><li>One contact for every location</li></ul></article>
+                <article className="step on dk-last"><div className="sbtn"><span className="dot" /><h3 className="cap">Got more than one place?</h3></div><p>Hotels, villas, branches, stores. We shoot every one the same way, and you deal with one person throughout.</p></article>
               </div>
-              <div className="stagecol dk-sc"><div className="stage st3"><div className="box"><Minis /></div></div></div>
+              <div className="stagecol dk-sc"><div className="stage st3"><div className="box"><div className="sglist"><MapsList /></div></div></div></div>
             </div></div>
           </div>
           <div className="dk-pb">
             <header className="dk-head">
               <div className="dk-hi" style={{ opacity: v.dkHo, transform: `translateY(0px) scale(${v.dkHs})` }}>
                 <h2>What changes<br />for you</h2>
-                <p>Once your tour is live on Google, you’ll notice four things.</p>
               </div>
             </header>
             <div className="dk-stage"><DeckCards c={c} /></div>

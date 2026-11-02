@@ -1,4 +1,4 @@
-import HomeExperience from '@/components/HomeExperience';
+import NarrowExperience from '@/room/NarrowExperience';
 import RoomExperience from '@/room/RoomExperience';
 import TurnAround from '@/room/TurnAround';
 import Gate from '@/room/Gate';
@@ -19,7 +19,7 @@ export default function Page() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Gate wide={<RoomExperience />} narrow={<><HomeExperience /><TurnAround /></>} />
+      <Gate wide={<RoomExperience />} narrow={<><NarrowExperience /><TurnAround /></>} />
     </>
   );
 }
