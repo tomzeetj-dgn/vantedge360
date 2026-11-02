@@ -50,6 +50,12 @@ export default function TurnAround() {
           p.style.transition = 'transform .95s cubic-bezier(.65,0,.2,1)';
           p.style.transform = `translate(-50%,-50%) translate(${r.left + r.width / 2 - window.innerWidth / 2}px, ${r.top + r.height / 2 - window.innerHeight / 2}px) scale(${r.width / size}) rotate(-360deg)`;
         }
+        else if (p) {
+          // no planet in the hero to land on (the hero is the room itself): open up into it
+          p.style.transition = 'transform .95s cubic-bezier(.65,0,.2,1), opacity .8s ease .3s';
+          p.style.transform = 'translate(-50%,-50%) scale(6) rotate(-360deg)';
+          p.style.opacity = '0';
+        }
         if (layer.current) { layer.current.style.transition = 'opacity .5s ease .9s'; layer.current.style.opacity = '0'; }
         setTimeout(() => {
           root.style.overflow = '';
