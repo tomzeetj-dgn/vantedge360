@@ -7,6 +7,7 @@ import HomeExperience from '@/components/HomeExperience';
 
 export default class NarrowExperience extends HomeExperience {
   autoOpened = false;
+  bands = true;
 
   componentDidUpdate() {
     if (this.autoOpened || !this.state.mapIn || this.state.mp !== 'map') return;

@@ -147,3 +147,8 @@ html:has(.rx){overscroll-behavior-y:none}
 .gs-ph svg{fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .st2 .slice,.st2 .seam,.st2 .pin{opacity:0!important;transition:opacity .4s}
 .dk-pa .stage .sglist{opacity:1;transform:translate(-50%,-50%);transition:none}
+/* the room between sections on phones and portrait tablets */
+.rband{position:relative;height:clamp(150px,24svh,240px);overflow:hidden;background:#1B1916;z-index:1}
+.rband i{position:absolute;inset:-30px 0;background:url(../public/images/pano-strip.webp) 0 50%/auto 100% repeat-x;will-change:background-position}
+.rband b{position:absolute;right:clamp(16px,4vw,32px);bottom:12px;font-family:'Marcellus',serif;font-weight:400;font-size:.8rem;letter-spacing:.14em;color:rgba(250,248,244,.92);text-shadow:0 1px 8px rgba(0,0,0,.45)}
+.rband::after{content:'';position:absolute;inset:0;box-shadow:inset 0 14px 18px -14px rgba(0,0,0,.35),inset 0 -14px 18px -14px rgba(0,0,0,.35);pointer-events:none}
