@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Preview 2 · Google Maps sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@300;400;500;600&family=Roboto:wght@400;500&display=swap">
+<style>
+:root{--cream:#FAF8F4;--ink:#1E1C19;--gold:#D9BE8C}
+*{box-sizing:border-box}
+html,body{margin:0;background:#1B1916}
+body{font-family:Manrope,system-ui,sans-serif;color:var(--cream);-webkit-font-smoothing:antialiased}
+.intro,.outro{min-height:70svh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 22px 48px;background:var(--cream);color:var(--ink)}
+.intro h2,.outro h2{margin:0;font-family:Marcellus,serif;font-weight:400;text-transform:uppercase;letter-spacing:.07em;font-size:clamp(2rem,9.5vw,2.8rem);line-height:1.02}
+.intro p,.outro p{margin:14px 0 0;color:#5A544B;font-weight:300;line-height:1.6;max-width:24rem}
+.outro{justify-content:flex-start;padding-top:48px;min-height:60svh}
+.track{height:560svh;position:relative}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden;background:#1B1916}
+.sl{position:absolute;top:0;height:100%;width:12.5%;background:url(../images/restaurant.webp) 0 0/800% 100%;will-change:transform}
+.photo{position:absolute;inset:0;transform-origin:50% 60%}
+.fill{position:absolute;inset:0;background:url(../images/restaurant.webp) center/cover;opacity:0}
+.dim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,15,.78) 0%,rgba(20,18,15,.25) 34%,rgba(20,18,15,.1) 60%,rgba(20,18,15,.35) 100%);pointer-events:none}
+.chev{position:absolute;left:50%;width:58px;height:58px;margin-left:-29px;border-radius:50%;background:rgba(255,255,255,.88);display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0}
+.chev svg{width:26px;height:26px;fill:none;stroke:#1f1f1f;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.cap{position:absolute;left:22px;right:22px;top:calc(64px + env(safe-area-inset-top))}
+.cap h3{margin:0;font-family:Marcellus,serif;font-weight:400;text-transform:uppercase;letter-spacing:.07em;font-size:1.45rem;line-height:1.1}
+.cap p{margin:8px 0 0;font-size:.88rem;line-height:1.5;color:rgba(250,248,244,.86);font-weight:300;max-width:22rem}
+.cap .c{position:absolute;inset:0 0 auto 0;opacity:0;transform:translateY(10px)}
+.cap .c.on{opacity:1;transform:none;transition:opacity .45s,transform .6s cubic-bezier(.2,.7,.1,1)}
+.top{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;padding:calc(16px + env(safe-area-inset-top)) 22px 0;z-index:5}
+.logo{display:flex;align-items:center;gap:.7rem;color:var(--cream);text-decoration:none}
+.logo img{height:18px}.logo span{font-family:Marcellus,serif;font-size:.7rem;letter-spacing:.44em}
+.dots{display:flex;gap:6px}.dots i{width:16px;height:2px;background:rgba(250,248,244,.3)}.dots i.on{background:var(--gold)}
+/* Google Maps look */
+.g{font-family:Roboto,Arial,sans-serif;color:#1f1f1f}
+.gsearch{position:absolute;left:14px;right:14px;top:calc(196px + env(safe-area-inset-top));height:46px;border-radius:23px;background:#fff;display:flex;align-items:center;gap:14px;padding:0 16px 0 20px;box-shadow:0 1px 3px rgba(60,64,67,.3),0 4px 8px rgba(60,64,67,.15);opacity:0;font-size:1rem}
+.gsearch span{flex:1}.gsearch svg,.sheet svg{fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.gsearch svg{width:20px;height:20px;stroke:#474747}
+.sheet{position:absolute;left:0;right:0;bottom:0;height:86svh;background:#fff;border-radius:28px 28px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.25);transform:translateY(100%);will-change:transform}
+.handle{width:36px;height:4px;border-radius:2px;background:#dadce0;margin:10px auto 0}
+.place,.list{position:absolute;left:0;right:0;top:22px}
+.place{padding:0 20px}
+.place h4{margin:0;font-weight:400;font-size:1.55rem}
+.rate,.cat{display:flex;align-items:center;gap:5px;margin-top:5px;font-size:.92rem;color:#474747;white-space:nowrap}
+.stars{position:relative;color:#dadce0;letter-spacing:-1px}.stars i{position:absolute;left:0;top:0;overflow:hidden;color:#fbbc04;font-style:normal}
+.cat svg{width:16px;height:16px;stroke:#1a5bd0}
+.tabs{display:flex;margin:16px -20px 0;border-bottom:1px solid #c7c7c7}
+.tabs>*{flex:1;text-align:center;padding:10px 0 11px;font-size:.92rem;font-weight:500;color:#474747}
+.tabs b{color:#2b6f78;position:relative;font-weight:500}.tabs b::after{content:'';position:absolute;left:14%;right:14%;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:#357989}
+.acts{display:flex;justify-content:space-between;margin:16px -8px 0}
+.acts span{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:.74rem;line-height:1.15;text-align:center;font-weight:500;color:#1b4a52}
+.acts i{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#daf6fe}
+.acts svg{width:21px;height:21px;stroke:#1b4a52}.acts .on i{background:#357989}.acts .on .dia{fill:#fff;stroke:none}.acts .on .dia+path{stroke:#357989}
+.list .h{padding:0 20px 8px;font-size:.8rem;color:#474747}
+.row{display:flex;gap:14px;align-items:center;padding:13px 20px;border-top:1px solid #e8eaed}
+.row b{display:block;font-weight:400;font-size:1.06rem}
+.row .rate,.row .cat{font-size:.82rem;margin-top:3px}
+.row .t{flex:1;min-width:0}
+.row u{width:78px;height:78px;flex:none;border-radius:12px;background-size:cover;background-position:center}
+.tag{display:inline-block;margin-top:8px;font-size:.72rem;font-weight:500;color:#1b4a52;background:#daf6fe;border-radius:12px;padding:3px 9px}
+.note{position:fixed;right:12px;bottom:calc(8px + env(safe-area-inset-bottom));font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(30,28,25,.45);z-index:9}
+</style>
+</head>
+<body>
+<section class="intro">
+  <h2>One shoot,<br>then you’re<br>everywhere</h2>
+  <p>Scroll. The room becomes a tour, then a Google listing.</p>
+</section>
+
+<div class="track" id="track">
+  <div class="stage">
+    <div class="photo" id="photo" aria-hidden="true">
+      <div id="slices"></div>
+      <div class="fill" id="fill"></div>
+      <div class="chev" id="chev1" style="top:58%"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></div>
+      <div class="chev" id="chev2" style="top:58%;left:22%"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></div>
+      <div class="chev" id="chev3" style="top:58%;left:78%"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+    </div>
+    <div class="dim" id="dim"></div>
+    <header class="top">
+      <a class="logo" href="./"><img src="../images/ve-emblem-gold.svg" alt="VantEdge360"><span>VANTEDGE</span></a>
+      <div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i></div>
+    </header>
+    <div class="cap" id="cap">
+      <div class="c on"><h3>We shoot it in one visit</h3><p>One of our Google Trusted Photographers photographs the whole space in 360°. One visit, and guests barely notice.</p></div>
+      <div class="c"><h3>We build the tour</h3><p>We stitch the photos together and link the rooms, so people can walk from one to the next.</p></div>
+      <div class="c"><h3>It goes live on Google</h3><p>On Google Maps and your Business Profile. On your own website too, if you want it.</p></div>
+      <div class="c"><h3>Got more than one place?</h3><p>Hotels, villas, branches, stores. Same shoot, one person to deal with.</p></div>
+    </div>
+    <div class="gsearch g" id="gsearch"><span id="q">Sky Dining</span><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
+    <div class="sheet g" id="sheet">
+      <div class="handle"></div>
+      <div class="place" id="place">
+        <h4>Sky Dining</h4>
+        <div class="rate">4.8 <span class="stars"><i style="width:96%">★★★★★</i>★★★★★</span> (1,240) · Restaurant</div>
+        <div class="cat">Dubai Marina · <svg viewBox="0 0 24 24"><circle cx="12" cy="4.5" r="1.8" fill="#1a5bd0" stroke="none"/><path d="M11 8v6h5l2 5M11 11h4M9 11.5a5 5 0 1 0 6.5 6"/></svg></div>
+        <div class="tabs"><b>Overview</b><span>Menu</span><span>Reviews</span><span>About</span></div>
+        <div class="acts">
+          <span class="on"><i><svg viewBox="0 0 24 24"><path class="dia" d="M12 2.5l9.5 9.5-9.5 9.5L2.5 12z"/><path d="M9.5 15v-2.6c0-.8.6-1.4 1.4-1.4h3.6M13 9l2 2-2 2"/></svg></i>Directions</span>
+          <span><i><svg viewBox="0 0 24 24"><path d="M7.5 4.5h9v15l-4.5-3.2-4.5 3.2z"/></svg></i>Save</span>
+          <span><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" stroke-dasharray="3 2.2"/><path d="M12 8.2a3 3 0 0 1 3 3c0 2.2-3 4.8-3 4.8s-3-2.6-3-4.8a3 3 0 0 1 3-3z"/></svg></i>Nearby</span>
+          <span><i><svg viewBox="0 0 24 24"><rect x="7" y="3.5" width="10" height="17" rx="1.6"/><path d="M10.5 10l2 2-2 2"/></svg></i>Send to phone</span>
+          <span><i><svg viewBox="0 0 24 24"><circle cx="17" cy="6" r="2.2"/><circle cx="7" cy="12" r="2.2"/><circle cx="17" cy="18" r="2.2"/><path d="M9 11l6-3.8M9 13l6 3.8"/></svg></i>Share</span>
+        </div>
+      </div>
+      <div class="list" id="list" style="opacity:0">
+        <div class="h">4 results with a 360° tour</div>
+        <div class="row"><div class="t"><b>Sky Dining</b><div class="rate">4.8 <span class="stars"><i style="width:96%">★★★★★</i>★★★★★</span> (1,240)</div><div class="cat">Restaurant · Dubai Marina</div><span class="tag">Street View &amp; 360°</span></div><u style="background-image:url(../images/restaurant.webp)"></u></div>
+        <div class="row"><div class="t"><b>Seaside Villa</b><div class="rate">4.9 <span class="stars"><i style="width:98%">★★★★★</i>★★★★★</span> (312)</div><div class="cat">Villa · Greece</div><span class="tag">Street View &amp; 360°</span></div><u style="background-image:url(../images/villa.webp)"></u></div>
+        <div class="row"><div class="t"><b>Fjord Guesthouse</b><div class="rate">4.7 <span class="stars"><i style="width:94%">★★★★★</i>★★★★★</span> (186)</div><div class="cat">Guesthouse · Faroe Islands</div><span class="tag">Street View &amp; 360°</span></div><u style="background-image:url(../images/lounge.webp)"></u></div>
+        <div class="row"><div class="t"><b>Aurora Hotel</b><div class="rate">4.8 <span class="stars"><i style="width:96%">★★★★★</i>★★★★★</span> (904)</div><div class="cat">Hotel · Iceland</div><span class="tag">Street View &amp; 360°</span></div><u style="background-image:url(../images/suite.webp)"></u></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="outro">
+  <h2>What changes<br>for you</h2>
+  <p>The rest of the page carries on as it does now.</p>
+</section>
+<div class="note">Preview 2 of 3 · sample listings</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const track = $('track'), slicesEl = $('slices'), fill = $('fill'), photo = $('photo'), sheet = $('sheet');
+  const place = $('place'), list = $('list'), gsearch = $('gsearch'), q = $('q'), dim = $('dim');
+  const caps = [...document.querySelectorAll('.cap .c')], dots = [...document.querySelectorAll('.dots i')];
+  const chevs = [$('chev1'), $('chev2'), $('chev3')];
+  const N = 8, sl = [];
+  for (let i = 0; i < N; i++) { const d = document.createElement('div'); d.className = 'sl'; d.style.left = (i * 12.5) + '%'; d.style.backgroundPosition = (i / 7 * 100) + '% 0'; slicesEl.appendChild(d); sl.push(d); }
+  const cl = (x) => Math.max(0, Math.min(1, x));
+  const io = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  const seg = (p, a, b) => io(cl((p - a) / (b - a)));
+  let last = -1, raf = 0;
+
+  // 0..4 across the track: each step gets one screen; its move plays over the first 60%
+  const draw = () => {
+    raf = 0;
+    const r = track.getBoundingClientRect(), H = innerHeight;
+    const p = cl(-r.top / (r.height - H)) * 4;
+    if (Math.abs(p - last) < 0.0005) return; last = p;
+    const step = Math.min(3, Math.floor(p + 0.0001));
+    caps.forEach((c, i) => c.classList.toggle('on', i === step));
+    dots.forEach((d, i) => d.classList.toggle('on', i <= step));
+
+    // step 1: slices drift together as the photo is captured
+    const s1 = seg(p, 0, 0.9), s2 = seg(p, 1, 1.6), s3 = seg(p, 2, 2.6), s4 = seg(p, 3, 3.6);
+    sl.forEach((d, i) => {
+      const k = i - 3.5, a = 1 - s1;
+      d.style.transform = `translate(${(k * 26 * a).toFixed(1)}px, ${((i % 2 ? 60 : -60) * a).toFixed(1)}px) rotate(${(k * 2.4 * a).toFixed(2)}deg) scale(${(1 - 0.22 * a).toFixed(3)})`;
+      d.style.opacity = (0.35 + 0.65 * cl(p / 0.5)).toFixed(3);
+    });
+    fill.style.opacity = s1 >= 0.999 ? 1 : 0;
+    // step 2: walk forward into the room, Street View arrows appear
+    const walk = s2 * (1 - s3);
+    photo.style.transform = `scale(${(1 + 0.14 * s2).toFixed(4)})`;
+    chevs.forEach((c, i) => { const v = cl((s2 - i * 0.15) / 0.5) * (1 - s3); c.style.opacity = v.toFixed(3); c.style.transform = `translateY(${(12 * (1 - v)).toFixed(1)}px)`; });
+    // step 3: Maps takes over, the sheet rises with the place card
+    gsearch.style.opacity = s3.toFixed(3); gsearch.style.transform = `translateY(${(-10 * (1 - s3)).toFixed(1)}px)`;
+    const up = 0.44 * s3 + 0.26 * s4; // share of the screen the sheet covers
+    sheet.style.transform = `translateY(${((1 - up / 0.86) * 100).toFixed(2)}%)`;
+    // step 4: the card gives way to the results list
+    place.style.opacity = (1 - cl(s4 / 0.5)).toFixed(3);
+    list.style.opacity = cl((s4 - 0.35) / 0.65).toFixed(3);
+    list.style.transform = `translateY(${(16 * (1 - s4)).toFixed(1)}px)`;
+    q.textContent = s4 > 0.4 ? '360° tours near me' : 'Sky Dining';
+    dim.style.opacity = (1 - 0.4 * walk).toFixed(3);
+  };
+  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(draw); }, { passive: true });
+  addEventListener('resize', () => { last = -1; draw(); });
+  draw();
+})();
+</script>
+</body>
+</html>
