@@ -16,40 +16,10 @@ export default class Hero extends Component<object, S> {
   timers: ReturnType<typeof setTimeout>[] = [];
   t1?: ReturnType<typeof setInterval>;
   reduce = false;
-  state: S = { ready: false, phase: 'photo', pos: 50, dir: 1, drag: false, touched: false, spin: 0, pdrag: false, moved: false, tilt: false, coarse: false };
-
-  /*
-   * Phones: inside the tour, turning and tilting the phone looks around the room. Motion starts on
-   * the tap that opens the tour (iPhone asks once), and dragging still works alongside it.
-   */
-  a0: number | null = null;
-  pa: number = 50;
-  async startTilt() {
-    if (!this.state.coarse || typeof window === 'undefined' || !('DeviceOrientationEvent' in window)) return;
-    try {
-      const D = DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> };
-      if (typeof D.requestPermission === 'function' && (await D.requestPermission().catch(() => 'prompt')) === 'denied') return;
-      window.removeEventListener('deviceorientation', this.onOri);
-      window.addEventListener('deviceorientation', this.onOri);
-    } catch { /* drag still works */ }
-  }
-  stopTilt() { window.removeEventListener('deviceorientation', this.onOri); this.a0 = null; if (this.state.tilt) this.setState({ tilt: false }); }
-  onOri = (e: DeviceOrientationEvent) => {
-    const s = this.state;
-    if (e.alpha == null || s.phase !== 'inside' || s.drag) return;
-    if (this.a0 == null) { this.a0 = e.alpha; this.pa = s.pos; }
-    let d = this.a0 - e.alpha; while (d > 180) d -= 360; while (d < -180) d += 360;
-    // the room photo spans 240°; how much of it the screen shows decides how far one degree moves it
-    const el = document.querySelector<HTMLElement>('.hero .room');
-    const W = el?.offsetWidth || window.innerWidth, H = el?.offsetHeight || window.innerHeight;
-    const stripW = 1.28 * H * (3385 / 959), span = Math.max(30, 240 - (W / stripW) * 240);
-    const target = Math.max(0, Math.min(100, this.pa + (d / span) * 100));
-    this.setState({ pos: s.pos + (target - s.pos) * 0.4, touched: true, tilt: true });
-  };
+  state: S = { ready: false, phase: 'photo', pos: 50, dir: 1, drag: false, touched: false, spin: 0, pdrag: false, moved: false };
 
   componentDidMount() {
     this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (window.matchMedia('(pointer: coarse)').matches) this.setState({ coarse: true });
     window.addEventListener('vantedge:turned', this.onTurned);
     // Start the intro only once the photo and planet are in, so nothing animates empty. Never wait more than 4s.
     const go = () => { if (this.state.ready) return; this.setState({ ready: true }); this.intro(); setTimeout(() => laterImages.forEach(load), 1500); };
@@ -66,10 +36,10 @@ export default class Hero extends Component<object, S> {
     }, 40);
   }
 
-  componentWillUnmount() { this.stopTilt(); clearInterval(this.t1); this.timers.forEach(clearTimeout); window.removeEventListener('vantedge:turned', this.onTurned); }
+  componentWillUnmount() { clearInterval(this.t1); this.timers.forEach(clearTimeout); window.removeEventListener('vantedge:turned', this.onTurned); }
 
   /* After the end-of-page turn the visitor lands back here: show the planet, skip the intro. */
-  onTurned = () => { this.stopTilt(); this.timers.forEach(clearTimeout); this.timers = []; this.setState({ ready: true, phase: 'planet', touched: false }); };
+  onTurned = () => { this.timers.forEach(clearTimeout); this.timers = []; this.setState({ ready: true, phase: 'planet', touched: false }); };
 
   intro() {
     this.timers.forEach(clearTimeout); this.timers = [];
@@ -92,13 +62,13 @@ export default class Hero extends Component<object, S> {
       spinDeg: s.spin.toFixed(1),
       onDown: (e: React.PointerEvent<HTMLDivElement>) => { if (ph !== 'inside' && ph !== 'room') return; try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* */ } this.setState({ drag: true, touched: true, x0: e.clientX, p0: s.pos }); },
       onMove: (e: React.PointerEvent) => { const t = this.state; if (!t.drag) return; this.setState({ pos: Math.max(0, Math.min(100, t.p0 - (e.clientX - t.x0) / 6)) }); },
-      onUp: () => { if (this.state.drag) { this.a0 = null; this.setState({ drag: false }); } },
+      onUp: () => { if (this.state.drag) this.setState({ drag: false }); },
       pDown: (e: React.PointerEvent<HTMLButtonElement>) => { try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* */ } this.setState({ pdrag: true, moved: false, px0: e.clientX, s0: s.spin }); },
       pMove: (e: React.PointerEvent) => { const t = this.state; if (!t.pdrag) return; const dx = e.clientX - t.px0; this.setState({ spin: t.s0 + dx * 0.4, moved: t.moved || Math.abs(dx) > 5 }); },
       pUp: () => { if (this.state.pdrag) this.setState({ pdrag: false }); },
-      pClick: () => { if (!this.state.moved) { this.setState({ phase: 'inside', pos: 40, touched: false }); this.startTilt(); } },
-      enter: () => { this.setState({ phase: 'inside', pos: 40, touched: false }); this.startTilt(); },
-      fold: () => { this.stopTilt(); this.setState({ phase: 'planet' }); },
+      pClick: () => { if (!this.state.moved) this.setState({ phase: 'inside', pos: 40, touched: false }); },
+      enter: () => this.setState({ phase: 'inside', pos: 40, touched: false }),
+      fold: () => this.setState({ phase: 'planet' }),
     };
   return (
     <section className={`hero${s.ready ? '' : ' hero-wait'}`} id="top" aria-label="Introduction">
@@ -122,7 +92,7 @@ export default class Hero extends Component<object, S> {
         <div className="row"><button className="btn" onClick={v.enter}>Walk through a tour</button><a className="btn ol" href="#work">See the work</a></div>
       </div>
       <div className={`insidebar ${v.insideCls}`}>
-        <div className="wrap ibin"><span>{s.tilt ? 'Turn your phone to look around' : s.coarse ? 'Turn your phone or drag to look' : 'Drag to look around'}</span><button className="back" onClick={v.fold}>Fold back to 360°</button></div>
+        <div className="wrap ibin"><span>Drag to look around</span><button className="back" onClick={v.fold}>Fold back to 360°</button></div>
       </div>
       <header className={`nav ${v.navCls}`}>
         <div className="wrap navin">
