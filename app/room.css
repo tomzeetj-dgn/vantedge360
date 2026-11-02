@@ -179,42 +179,21 @@ html:has(.rx){overscroll-behavior-y:none}
 .ms-photo{position:absolute;inset:0;transform-origin:50% 60%}
 .ms-sl{position:absolute;top:0;height:100%;width:calc(12.5% + 1px);background:url(../public/images/restaurant.webp) 0 0/800% 100%}
 .ms-fill{position:absolute;inset:0;background:url(../public/images/restaurant.webp) center/cover;opacity:0}
-.ms-dim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(20,18,15,.25) 0%,rgba(20,18,15,0) 40%,rgba(20,18,15,.3) 100%)}
-.ms-cap{position:absolute;left:0;right:0;top:0;display:grid;padding:calc(22px + env(safe-area-inset-top)) clamp(22px,5vw,48px) 22px;background:#FAF8F4;color:#1E1C19;box-shadow:0 24px 40px -26px rgba(0,0,0,.55);z-index:2}
-.ms-c{grid-area:1/1;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .5s cubic-bezier(.2,.7,.1,1)}
-.ms-c.on{opacity:1;transform:none;transition:opacity .45s .1s,transform .6s cubic-bezier(.2,.7,.1,1) .1s}
-.ms-c h3{margin:0;font-weight:400;font-size:clamp(1.45rem,6.6vw,2.1rem);line-height:1.1;color:#1E1C19}
-.ms-c p{margin:10px 0 0;font-size:1rem;line-height:1.55;color:#4E483F;font-weight:400;max-width:34rem}
-.ms-search{position:absolute;left:14px;right:14px;top:220px;height:46px;border-radius:23px;background:#fff;display:flex;align-items:center;gap:14px;padding:0 16px 0 20px;box-shadow:0 1px 3px rgba(60,64,67,.3),0 4px 8px rgba(60,64,67,.15);opacity:0;font-family:Roboto,Arial,sans-serif;font-size:1rem;color:#1f1f1f}
-.ms-search span{flex:1}
-.ms-search svg,.ms-sheet svg{fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.ms-search svg{width:20px;height:20px;stroke:#474747}
-.ms-sheet{position:absolute;left:0;right:0;bottom:0;height:86svh;background:#fff;border-radius:28px 28px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.25);transform:translateY(100%);font-family:Roboto,Arial,sans-serif;color:#1f1f1f}
-.ms-handle{width:36px;height:4px;border-radius:2px;background:#dadce0;margin:10px auto 0}
-.ms-place,.ms-list{position:absolute;left:0;right:0;top:22px}
-.ms-place{padding:0 20px}
-.ms-place h4{margin:0;font-weight:400;font-size:1.55rem}
-.ms-rate{display:flex;align-items:center;gap:5px;margin-top:5px;font-size:.92rem;color:#474747;white-space:nowrap;overflow:hidden}
-.ms-sheet .gstars{font-size:.9rem}
-.ms-acc{width:16px;height:16px;stroke:#1a5bd0}.ms-acc circle{fill:#1a5bd0;stroke:none}
-.ms-tabs{display:flex;margin:16px -20px 0;border-bottom:1px solid #c7c7c7}
-.ms-tabs>*{flex:1;text-align:center;padding:10px 0 11px;font-size:.92rem;font-weight:500;color:#474747}
-.ms-tabs b{color:#2b6f78;position:relative;font-weight:500}.ms-tabs b::after{content:'';position:absolute;left:14%;right:14%;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:#357989}
-.ms-acts{display:flex;justify-content:space-between;margin:16px -8px 0}
-.ms-acts span{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:.74rem;line-height:1.15;text-align:center;font-weight:500;color:#1b4a52}
-.ms-acts i{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#daf6fe}
-.ms-acts svg{width:21px;height:21px;stroke:#1b4a52}.ms-acts .on i{background:#357989}.ms-acts .on .ms-dia{fill:#fff;stroke:none}.ms-acts .on .ms-dia+path{stroke:#357989}
-.ms-list{opacity:0}
-.ms-lh{padding:0 20px 8px;font-size:.8rem;color:#474747}
-.ms-row{display:flex;gap:14px;align-items:center;padding:13px 20px;border-top:1px solid #e8eaed}
-.ms-rt{flex:1;min-width:0}
-.ms-rt b{display:block;font-weight:400;font-size:1.06rem}
-.ms-row .ms-rate{font-size:.82rem;margin-top:3px}
-.ms-row u{width:78px;height:78px;flex:none;border-radius:12px;background-size:cover;background-position:center}
-.ms-tag{display:inline-block;margin-top:8px;font-size:.72rem;font-weight:500;color:#1b4a52;background:#daf6fe;border-radius:12px;padding:3px 9px}
-@media (min-width:600px){.ms-sheet,.ms-search{left:0;right:0;margin:0 auto;width:min(560px,90vw)}}
 
 .ms-seam{position:absolute;left:0;top:0;height:100%;width:1px;background:#D9BE8C;box-shadow:0 0 12px rgba(217,190,140,.8);opacity:0}
 .ms-edge{position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(20,18,15,.55),rgba(20,18,15,0) 14%,rgba(20,18,15,0) 86%,rgba(20,18,15,.55))}
-.ms-cont{position:absolute;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translateX(-50%);color:#FAF8F4;font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:10px;opacity:0;white-space:nowrap;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+
+/* services on phones: big caption at the bottom, the visual above it */
+.ms-dim{position:absolute;inset:0;pointer-events:none;background:rgba(20,18,15,.62);opacity:0}
+.ms-cap{position:absolute;left:0;right:0;bottom:0;display:grid;padding:26px clamp(22px,5vw,48px) calc(26px + env(safe-area-inset-bottom));background:#FAF8F4;color:#1E1C19;box-shadow:0 -24px 40px -26px rgba(0,0,0,.55);z-index:3}
+.ms-c{grid-area:1/1;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .5s cubic-bezier(.2,.7,.1,1)}
+.ms-c.on{opacity:1;transform:none;transition:opacity .45s .1s,transform .6s cubic-bezier(.2,.7,.1,1) .1s}
+.ms-c h3{margin:0;font-weight:400;font-size:clamp(2rem,9vw,2.7rem);line-height:1.04;letter-spacing:.06em;color:#1E1C19}
+.ms-c p{margin:12px 0 0;font-size:clamp(1.04rem,2.9vw,1.15rem);line-height:1.55;color:#4E483F;font-weight:400;max-width:36rem}
+.ms-cont{position:absolute;left:50%;bottom:260px;transform:translateX(-50%);color:#FAF8F4;font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:10px;opacity:0;white-space:nowrap;text-shadow:0 1px 8px rgba(0,0,0,.5);z-index:2}
 .ms-cont i{width:34px;height:1px;background:#D9BE8C}
+.ms-area{position:absolute;left:0;right:0;top:calc(18px + env(safe-area-inset-top));bottom:260px;pointer-events:none;z-index:2}
+.ms-card,.ms-list{position:absolute;left:50%;top:50%;width:min(92vw,420px);opacity:0;transform:translate(-50%,-50%);transform-origin:50% 50%}
+.ms-list .ghandle{display:none}
+.ms-list .glist{padding-top:6px}
+.gsearch{color:#1f1f1f}
